@@ -60,7 +60,7 @@ using &quot;console.log&quot;
 Can be used as a &quot;passthrough&quot; (see &quot;createQueue&quot; example)</p>
 </dd>
 <dt><a href="#tee">tee(...programs)</a> ⇒ <code><a href="#AsyncRenderFunction">AsyncRenderFunction</a></code></dt>
-<dd><p>creates a render function whos&#39;s values are teed on to given 
+<dd><p>creates a render function whos&#39;s values are teed on to given
 It may be advantageous to use this along side a programQueue</p>
 </dd>
 <dt><a href="#inputConsole">inputConsole(respond)</a></dt>
@@ -382,7 +382,7 @@ extract first set of items that match a given condition as an array
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | iterator | <code>AsynchronousIterator</code> |  | iterator from which to take |
-| accept | <code>function</code> |  | boolean filtering function indicating  whether to allow item |
+| accept | <code>function</code> |  | boolean filtering function indicating whether to allow item |
 | [skip] | <code>Number</code> | <code>0</code> | number of items to skip before taking |
 
 **Example**  
@@ -459,7 +459,7 @@ render(continuousOutput);
 <a name="tee"></a>
 
 ## tee(...programs) ⇒ [<code>AsyncRenderFunction</code>](#AsyncRenderFunction)
-creates a render function whos's values are teed on to given 
+creates a render function whos's values are teed on to given
 It may be advantageous to use this along side a programQueue
 
 **Kind**: global function  

@@ -1,7 +1,6 @@
 
 #!/bin/sh
-
-echo "\nLinting code...:\n"
+echo "\nLinting code...\n"
 
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".jsx\{0,1\}$")
 
@@ -11,10 +10,26 @@ fi
 
 PASS=true
 
-
-
 for FILE in $STAGED_FILES
 do
+
+  if [[ "$FILE" != "flow-sub-modules/"* ]]; then
+    continue
+  fi
+
+  if [ "$FILE" == "index.js" ]; then
+    continue
+  fi
+
+  if [ "$FILE" == "index.mjs" ]; then
+    continue
+  fi
+  
+  if [[ "$FILE" == "tests/"* ]]; then
+    continue
+  fi
+
+  echo "fixing $FILE"
   npm run fix "$FILE"
 
   if [[ "$?" == 0 ]]; then

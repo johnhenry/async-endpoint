@@ -1,8 +1,9 @@
 #!/bin/sh
-echo "\nType checking...\n"
+echo "\nType Checking...\n"
 npm run flow check
-rm -rf sub-modules
+rm -rf browser
+rm -rf node
 npm run type
-git add sub-modules
-echo "\033[42mType checking successful!\033[0m\n"
-
+cp index.js browser/index.js
+git add browser
+echo "\033[42mType Checking Successful!\033[0m\n"
