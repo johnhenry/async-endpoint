@@ -1,0 +1,30 @@
+{
+  "name": "async-endpoint",
+  "version": "0.0.4",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "docs": "jsdoc2md index.js > ./readme/api.md && cat ./readme/preamble.md ./readme/intro.md ./readme/api.md > ./readme.md",
+    "type": "flow-remove-types --out-dir sub-modules/ flow-sub-modules/ --sourcemaps",
+    "flow": "flow",
+    "fix": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnhenry/async-endpoint"
+  },
+  "author": "john@iamjohnhenry.com",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.11.0",
+    "eslint-plugin-flowtype": "^2.39.1",
+    "flow-bin": "^0.59.0",
+    "flow-remove-types": "^1.2.3",
+    "git-hooks": "^1.1.9",
+    "jsdoc-to-markdown": "^3.0.1"
+  }
+}
