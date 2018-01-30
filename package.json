@@ -12,7 +12,7 @@
     "type":
       "flow-remove-types --out-dir browser/sub-modules/ flow-sub-modules/ --sourcemaps",
     "flow": "flow",
-    "fix": "echo \"linting temporarliy disabled\" && exit 0"
+    "fix": "echo \"linting temporarliy disabled\" && : "
   },
   "repository": {
     "type": "git",

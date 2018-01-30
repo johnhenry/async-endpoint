@@ -1,8 +1,8 @@
 //@flow
-export default (iterator: AsyncIterator<*>, mapper: Function) => {
+export default (iterator: AsyncIterator<*>, handler: Function) => {
   const newGenerator = async function*(): AsyncGenerator<any, void, any> {
     for await (const item of iterator) {
-      yield await mapper(item);
+      await handler(item);
     }
   };
   return newGenerator();

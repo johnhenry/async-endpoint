@@ -190,6 +190,8 @@ render(program(undefined, request));//the init object will be ignored
 </dd>
 <dt><a href="#creates an iterator whose values are mapped from another">creates an iterator whose values are mapped from another(iterator, mapper)</a> ⇒ <code>AsynchornousIterator</code></dt>
 <dd></dd>
+<dt><a href="#executes a provided funcition for each item of an iterator">executes a provided funcition for each item of an iterator(iterator, handler)</a> ⇒ <code>AsynchornousIterator</code></dt>
+<dd></dd>
 <dt><a href="#filter">filter(iterator, filterer)</a> ⇒ <code>AsynchornousIterator</code></dt>
 <dd><p>creates an iterator whose values are filtered from another</p>
 </dd>
@@ -341,6 +343,28 @@ logs "3"
 logs "4"
 ...
 ```
+<a name="executes a provided funcition for each item of an iterator"></a>
+
+## executes a provided funcition for each item of an iterator(iterator, handler) ⇒ <code>AsynchornousIterator</code>
+**Kind**: global function  
+**Returns**: <code>AsynchornousIterator</code> - resulting iterator (yields nothing)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| iterator | <code>AsynchornousIterator</code> | iterator |
+| handler | [<code>AsyncTransformer</code>](#AsyncTransformer) | provided function |
+
+**Example**  
+```js
+import {forEach, continuousOutput},  from "async-endpoint";
+let i = 0;
+continuousOutput(()=>i++, console.log);
+main();
+logs "2"
+logs "3"
+logs "4"
+...
+```
 <a name="filter"></a>
 
 ## filter(iterator, filterer) ⇒ <code>AsynchornousIterator</code>
@@ -382,8 +406,8 @@ creates an iterator whose values are reduced from another
 | iterator | <code>AsynchornousIterator</code> |  | iterator to be reduced |
 | reducer | <code>function</code> |  | reducing function |
 | [inital] | <code>\*</code> |  | initial object to reduce into |
-| [condition] | <code>function</code> | <code>(item, initial) =&gt; false</code> | boolean filtering function indicating when to start new reduction phase |
-| [resetInitial] | <code>function</code> | <code>()=&gt;initial</code> | method to reset/replace initial reduction object |
+| [condition] | <code>function</code> | <code>(item, initial) &#x3D;&gt; false</code> | boolean filtering function indicating when to start new reduction phase |
+| [resetInitial] | <code>function</code> | <code>()&#x3D;&gt;initial</code> | method to reset/replace initial reduction object |
 
 **Example**  
 ```js
@@ -598,7 +622,7 @@ program that takes no input and contiuously outputs result of calling function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [sample] | <code>\*</code> | <code>()=&gt;{}</code> | function whose result to output |
+| [sample] | <code>\*</code> | <code>()&#x3D;&gt;{}</code> | function whose result to output |
 
 **Example**  
 ```js

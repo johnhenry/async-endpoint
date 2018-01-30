@@ -104,6 +104,24 @@ export { default as composeProgram } from "./sub-modules/compose-programs";
 export { default as map } from "./sub-modules/array-like/map";
 
 /**
+ * @name forEach
+ * @function executes a provided funcition for each item of an iterator
+ * @param {AsynchornousIterator} iterator - iterator
+ * @param {AsyncTransformer} handler - provided function
+ * @returns {AsynchornousIterator} resulting iterator (yields nothing)
+ * @example
+ * import {forEach, continuousOutput},  from "async-endpoint";
+ * let i = 0;
+ * continuousOutput(()=>i++, console.log);
+ * main();
+ * logs "2"
+ * logs "3"
+ * logs "4"
+ * ...
+ */
+export { default as forEach } from "./sub-modules/array-like/for-each";
+
+/**
  * @function filter
  * @description creates an iterator whose values are filtered from another
  * @param {AsynchornousIterator} iterator - iterator to be filtered

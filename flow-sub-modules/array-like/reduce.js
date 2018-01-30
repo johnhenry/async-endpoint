@@ -8,7 +8,7 @@ export default (
 ) => {
   const newGenerator = async function*(): AsyncGenerator<any, void, any> {
     for await (const item of iterator) {
-      initial = reducer(item, initial);
+      initial = await reducer(item, initial);
       if (condition(item, initial)) {
         yield initial;
         initial = resetInitial(item, initial);

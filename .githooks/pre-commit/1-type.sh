@@ -6,4 +6,5 @@ rm -rf node
 npm run type
 cp index.js browser/index.js
 git add browser
+git add .
 echo "\033[42mType Checking Successful!\033[0m\n"

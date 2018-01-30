@@ -2,7 +2,7 @@
 export default (iterator                  , mapper          ) => {
   const newGenerator = async function*()                                 {
     for await (const item of iterator) {
-      yield mapper(item);
+      yield await mapper(item);
     }
   };
   return newGenerator();

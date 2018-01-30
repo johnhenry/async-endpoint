@@ -1,11 +1,11 @@
 //     
-export default (iterator                  , mapper          ) => {
+export default (iterator                  , handler          ) => {
   const newGenerator = async function*()                                 {
     for await (const item of iterator) {
-      yield await mapper(item);
+      await handler(item);
     }
   };
   return newGenerator();
 };
 
-//# sourceMappingURL=map.js.map
+//# sourceMappingURL=for-each.js.map
