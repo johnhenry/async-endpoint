@@ -1,16 +1,13 @@
 {
   "name": "async-endpoint",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "private": false,
   "main": "node/index.mjs",
   "scripts": {
-    "test":
-      "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
-    "docs":
-      "jsdoc2md index.js > ./readme/api.md && cat ./readme/preamble.md ./readme/intro.md ./readme/api.md > ./readme.md",
-    "type":
-      "flow-remove-types --out-dir browser/sub-modules/ flow-sub-modules/ --sourcemaps",
+    "test": "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
+    "docs": "jsdoc2md index.js > ./readme/api.md && cat ./readme/preamble.md ./readme/intro.md ./readme/api.md > ./readme.md",
+    "type": "flow-remove-types --out-dir browser/sub-modules/ flow-sub-modules/ --sourcemaps",
     "flow": "flow",
     "fix": "echo \"linting temporarliy disabled\" && : "
   },
