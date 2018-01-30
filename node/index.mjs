@@ -108,11 +108,11 @@ export { default as map } from "./sub-modules/array-like/map";
  * @function executes a provided funcition for each item of an iterator
  * @param {AsynchornousIterator} iterator - iterator
  * @param {AsyncTransformer} handler - provided function
- * @returns {AsynchornousIterator} resulting iterator (yields nothing)
+ * @returns {undefined}
  * @example
  * import {forEach, continuousOutput},  from "async-endpoint";
  * let i = 0;
- * continuousOutput(()=>i++, console.log);
+ * forEach(continuousOutput(()=>i++, console.log));
  * main();
  * logs "2"
  * logs "3"

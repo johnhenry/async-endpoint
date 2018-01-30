@@ -14,7 +14,7 @@
 </dd>
 <dt><a href="#creates an iterator whose values are mapped from another">creates an iterator whose values are mapped from another(iterator, mapper)</a> ⇒ <code>AsynchornousIterator</code></dt>
 <dd></dd>
-<dt><a href="#executes a provided funcition for each item of an iterator">executes a provided funcition for each item of an iterator(iterator, handler)</a> ⇒ <code>AsynchornousIterator</code></dt>
+<dt><a href="#executes a provided funcition for each item of an iterator">executes a provided funcition for each item of an iterator(iterator, handler)</a> ⇒ <code>undefined</code></dt>
 <dd></dd>
 <dt><a href="#filter">filter(iterator, filterer)</a> ⇒ <code>AsynchornousIterator</code></dt>
 <dd><p>creates an iterator whose values are filtered from another</p>
@@ -169,9 +169,8 @@ logs "4"
 ```
 <a name="executes a provided funcition for each item of an iterator"></a>
 
-## executes a provided funcition for each item of an iterator(iterator, handler) ⇒ <code>AsynchornousIterator</code>
+## executes a provided funcition for each item of an iterator(iterator, handler) ⇒ <code>undefined</code>
 **Kind**: global function  
-**Returns**: <code>AsynchornousIterator</code> - resulting iterator (yields nothing)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -182,7 +181,7 @@ logs "4"
 ```js
 import {forEach, continuousOutput},  from "async-endpoint";
 let i = 0;
-continuousOutput(()=>i++, console.log);
+forEach(continuousOutput(()=>i++, console.log));
 main();
 logs "2"
 logs "3"

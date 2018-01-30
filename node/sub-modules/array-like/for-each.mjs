@@ -1,11 +1,8 @@
 //     
-export default (iterator                  , handler          ) => {
-  const newGenerator = async function*()                                 {
-    for await (const item of iterator) {
-      await handler(item);
-    }
-  };
-  return newGenerator();
+export default async (iterator                  , handler          ) => {
+  for await (const item of iterator) {
+    await handler(item);
+  }
 };
 
 //# sourceMappingURL=for-each.js.map

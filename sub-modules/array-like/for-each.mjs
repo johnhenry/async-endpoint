@@ -1,5 +1,5 @@
-//     
-export default async (iterator                  , handler          ) => {
+//
+export default async (iterator, handler) => {
   for await (const item of iterator) {
     await handler(item);
   }
