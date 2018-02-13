@@ -51,7 +51,7 @@
  * @description creates a pair of asynchronous functions used to transfer objects between programs
  * @returns {AsyncPair} array of paired functions
  * @example
- * import {createAsyncPair} from "async-endpoint.js";
+ * import {createAsyncPair} from "async-endpoint";
  * const [request, respond] = createAsyncPair();
  * const main = async()=>{
  *      setTimeout(()=>{
@@ -71,7 +71,7 @@ export { default as createAsyncPair } from "./create-async-pair.js";
  * @param {...Program} programs - programs to be composed sequentially
  * @returns {AsynchornousIterator} resulting iterator
  * @example
- * import {composePrograms} from "async-endpoint.js";
+ * import {composePrograms} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const [request, respond] = createAsyncPair();
  * const program = composePrograms(request, program1, program2, program3);
@@ -87,7 +87,7 @@ export { default as composeProgram } from "./compose-programs.js";
  * @param {AsyncTransformer} mapper - transformation for individual items
  * @returns {AsynchornousIterator} resulting iterator
  * @example
- * import {map, continuousOutput},  from "async-endpoint.js";
+ * import {map, continuousOutput},  from "async-endpoint";
  * let i = 0;
  * const mapped = map(continuousOutput(()=>i++), (n) => n + 2);
  * const main = async ()=>{
@@ -110,7 +110,7 @@ export { default as map } from "./array-like/map.js";
  * @param {AsyncTransformer} handler - provided function
  * @returns {undefined}
  * @example
- * import {forEach, continuousOutput},  from "async-endpoint.js";
+ * import {forEach, continuousOutput},  from "async-endpoint";
  * let i = 0;
  * forEach(continuousOutput(()=>i++, console.log));
  * main();
@@ -128,7 +128,7 @@ export { default as forEach } from "./array-like/for-each.js";
  * @param {Function} filterer - boolean filtering function
  * @returns {AsynchornousIterator} filtered iterator
  * @example
- * import {filter, continuousOutput} from "async-endpoint.js";
+ * import {filter, continuousOutput} from "async-endpoint";
  * let i = 0;
  * const filtered =filter(continuousOutput(()=>i++),  (n)=>n%2);
  * const main = async ()=>{
@@ -153,7 +153,7 @@ export { default as filter } from "./array-like/filter.js";
  * @param {Function} [resetInitial = ()=>initial]- method to reset/replace initial reduction object 
  * @returns {AsynchornousIterator} reduced iterator
  * @example
- * import {reduce, continuousOutput} from "async-endpoint.js";
+ * import {reduce, continuousOutput} from "async-endpoint";
  * let i = 0;
  * const reduced = reduce(continuousOutput(()=>i++) , (previous, current)=>previous.push(current),[], (x)=!(x%5), ()=>([]));
  * const main = async ()=>{
@@ -212,7 +212,7 @@ export {
  * @param {...*} initial - initial items in queue
  * @returns {PushPair} queue and push function
  * @example
- * import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint.js";
+ * import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const [queue, push] createQueue();
  * const passthrough = createPassThrough(push);
@@ -228,7 +228,7 @@ export { default as createQueue } from "./queue/create-queue.js";
  * @param {...*} initial - initial items on stack
  * @returns {PushPair} stack and push function
  * @example
- * import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint.js";
+ * import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const [stack, push] createStack();
  * const passthrough = createPassThrough(push);
@@ -244,7 +244,7 @@ export { default as createStack } from "./queue/create-stack.js";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint.js";
+ * import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const [queue, push] = createProgramQueue();
  * push(porgram1(), program2(), program3());
@@ -259,7 +259,7 @@ export { default as programQueue } from "./queue/create-program-queue.js";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramStack, createAsyncPair, renderer} from "async-endpoint.js";
+ * import {createProgramStack, createAsyncPair, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const [stack, push] = createProgramStack();
  * push(porgram1(), program2(), program3());
@@ -277,12 +277,12 @@ export { default as programStack } from "./queue/create-program-queue.js";
  * @param {Number} [skip = 0]- number of items to skip before taking
  * @returns {Promise<Array>} stack and push function
  * @example
- * import {take, continuousOutput} from "async-endpoint.js";
+ * import {take, continuousOutput} from "async-endpoint";
  * let i = 0;
  * take(continuousOutput(()=>i++), 3,1).then(taken=>console.log(taken));
  * //logs "[1,2,3]"
  */
-export { default as take } from "./take.js";
+export { default as take } from "./take/index.js";
 
 /**
  * @function takeWhile
@@ -293,7 +293,7 @@ export { default as take } from "./take.js";
  * @param {Number} [skip = 0] - number of items to skip before taking
  * @returns {Promise<Array>} stack and push function
  * @example
- * import {takeWhile, continuousOutput} from "async-endpoint.js";
+ * import {takeWhile, continuousOutput} from "async-endpoint";
  * let i = 0;
  * takeWhile(continuousOutput(()=>i++), x  => x < 5, 2).then(taken=>console.log(taken));
  * //logs "[2,3,4]"
@@ -308,7 +308,7 @@ export { default as takeWhile } from "./take/while.js";
  * @param {PairedRequest} request - request function for input
  * @returns {AsynchronousIterator} resulting iterator
  * @example
- * import {identity, renderer createAsyncPair} from "async-endpoint.js";
+ * import {identity, renderer createAsyncPair} from "async-endpoint";
  * const [request, respond] = createAsyncPair();
  * identity(undefined, request);
  * window.respond = respond
@@ -321,7 +321,7 @@ export { default as identity } from "./program/identity.js";
  * @param {*} [sample=()=>{}] - function whose result to output
  * @returns {AsynchronousIterator} resulting iterator
  * @example
- * import {continuousOutput, renderer} from "async-endpoint.js";
+ * import {continuousOutput, renderer} from "async-endpoint";
  * const render = renderer();
  * render(continuousOutput(()=>"hello"))
  * logs "hello" (continously)
@@ -346,7 +346,7 @@ export { default as continuousOutput } from "./program/continuous-output.js";
  * //logs "1"
  * ...
  */
-export { default as renderer } from "./renderer.js";
+export { default as renderer } from "./renderer/index.js";
 
 /**
  * @function tee
@@ -355,7 +355,7 @@ export { default as renderer } from "./renderer.js";
  * @param {...Program} programs - programs to be sent values
  * @return {AsyncRenderFunction} asychronous render function
  * @example
- * import {tee, continousOutput, renderer} from "async-endpoint.js";
+ * import {tee, continousOutput, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....js";
  * const instance1 = program1();
  * const instance2 = program2();
@@ -373,7 +373,7 @@ export { default as tee } from "./renderer/tee.js";
  * @description send input typed into console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint.js";
+ * import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint";
  * const [request, respond] = creteAsyncPair();
  * const render = renderer();
  * render(identity(undefined, request))
@@ -386,7 +386,7 @@ export { default as inputConsole } from "./input/console.js";
  * @description send input piped to console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint.js";
+ * import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint";
  * const [request, respond] = creteAsyncPair();
  * const render = renderer();
  * render(identity(undefined, request))

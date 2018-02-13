@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "",
   "private": false,
-  "main": "node/index.mjs",
+  "main": "mjs/index.mjs",
   "scripts": {
     "test":
       "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
