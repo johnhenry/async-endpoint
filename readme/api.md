@@ -108,7 +108,7 @@ creates a pair of asynchronous functions used to transfer objects between progra
 **Returns**: [<code>AsyncPair</code>](#AsyncPair) - array of paired functions  
 **Example**  
 ```js
-import {createAsyncPair} from "async-endpoint";
+import {createAsyncPair} from "async-endpoint.js";
 const [request, respond] = createAsyncPair();
 const main = async()=>{
      setTimeout(()=>{
@@ -134,8 +134,8 @@ composes programs sequentially with a single input
 
 **Example**  
 ```js
-import {composePrograms} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {composePrograms} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const [request, respond] = createAsyncPair();
 const program = composePrograms(request, program1, program2, program3);
 window.respond = respond;
@@ -153,7 +153,7 @@ window.respond = respond;
 
 **Example**  
 ```js
-import {map, continuousOutput},  from "async-endpoint";
+import {map, continuousOutput},  from "async-endpoint.js";
 let i = 0;
 const mapped = map(continuousOutput(()=>i++), (n) => n + 2);
 const main = async ()=>{
@@ -179,7 +179,7 @@ logs "4"
 
 **Example**  
 ```js
-import {forEach, continuousOutput},  from "async-endpoint";
+import {forEach, continuousOutput},  from "async-endpoint.js";
 let i = 0;
 forEach(continuousOutput(()=>i++, console.log));
 main();
@@ -203,7 +203,7 @@ creates an iterator whose values are filtered from another
 
 **Example**  
 ```js
-import {filter, continuousOutput} from "async-endpoint";
+import {filter, continuousOutput} from "async-endpoint.js";
 let i = 0;
 const filtered =filter(continuousOutput(()=>i++),  (n)=>n%2);
 const main = async ()=>{
@@ -234,7 +234,7 @@ creates an iterator whose values are reduced from another
 
 **Example**  
 ```js
-import {reduce, continuousOutput} from "async-endpoint";
+import {reduce, continuousOutput} from "async-endpoint.js";
 let i = 0;
 const reduced = reduce(continuousOutput(()=>i++) , (previous, current)=>previous.push(current),[], (x)=!(x%5), ()=>([]));
 const main = async ()=>{
@@ -263,7 +263,7 @@ useful for pausing asynchronous programs
 
 **Example**  
 ```js
-import {pause} from "async-endopint";
+import {pause} from "async-endopint.js";
 const main = async ()=>{
  console.log("hello");
  await pause(1000);
@@ -288,7 +288,7 @@ composes two asynchoronous transformers
 
 **Example**  
 ```js
-import {composeAsyncTransformer} from "async-endopint";
+import {composeAsyncTransformer} from "async-endopint.js";
 const t1 = async (x)=>`<${x}>`;
 const t2 = async (x)=>`[${x}]`;
 const t = composeAsyncTransformer(t1, t2);
@@ -309,8 +309,8 @@ create a queue iterator
 
 **Example**  
 ```js
-import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const [queue, push] createQueue();
 const passthrough = createPassThrough(push);
 passthrough(porgram1(), program2(), program3());
@@ -331,8 +331,8 @@ create a stack iterator
 
 **Example**  
 ```js
-import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const [stack, push] createStack();
 const passthrough = createPassThrough(push);
 passthrough(porgram1(), program2(), program3());
@@ -349,8 +349,8 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const [queue, push] = createProgramQueue();
 push(porgram1(), program2(), program3());
 const render = renderer();
@@ -366,8 +366,8 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramStack, createAsyncPair, renderer} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {createProgramStack, createAsyncPair, renderer} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const [stack, push] = createProgramStack();
 push(porgram1(), program2(), program3());
 const render = renderer();
@@ -389,7 +389,7 @@ extract items from iterator as array
 
 **Example**  
 ```js
-import {take, continuousOutput} from "async-endpoint";
+import {take, continuousOutput} from "async-endpoint.js";
 let i = 0;
 take(continuousOutput(()=>i++), 3,1).then(taken=>console.log(taken));
 //logs "[1,2,3]"
@@ -410,7 +410,7 @@ extract first set of items that match a given condition as an array
 
 **Example**  
 ```js
-import {takeWhile, continuousOutput} from "async-endpoint";
+import {takeWhile, continuousOutput} from "async-endpoint.js";
 let i = 0;
 takeWhile(continuousOutput(()=>i++), x  => x < 5, 2).then(taken=>console.log(taken));
 //logs "[2,3,4]"
@@ -430,7 +430,7 @@ program that outputs what ever is put throught
 
 **Example**  
 ```js
-import {identity, renderer createAsyncPair} from "async-endpoint";
+import {identity, renderer createAsyncPair} from "async-endpoint.js";
 const [request, respond] = createAsyncPair();
 identity(undefined, request);
 window.respond = respond
@@ -449,7 +449,7 @@ program that takes no input and contiuously outputs result of calling function
 
 **Example**  
 ```js
-import {continuousOutput, renderer} from "async-endpoint";
+import {continuousOutput, renderer} from "async-endpoint.js";
 const render = renderer();
 render(continuousOutput(()=>"hello"))
 logs "hello" (continously)
@@ -472,7 +472,7 @@ Can be used as a "passthrough" (see "createQueue" example)
 
 **Example**  
 ```js
-import {renderer, continuousOutput} from "async-input";
+import {renderer, continuousOutput} from "async-input.js";
 const render = renderer();
 render(continuousOutput);
 //logs "0"
@@ -494,8 +494,8 @@ It may be advantageous to use this along side a programQueue
 
 **Example**  
 ```js
-import {tee, continousOutput, renderer} from "async-endpoint";
-import porgram1, program1, program3 from "...";
+import {tee, continousOutput, renderer} from "async-endpoint.js";
+import porgram1, program1, program3 from "....js";
 const instance1 = program1();
 const instance2 = program2();
 const instance3 = program3();
@@ -517,7 +517,7 @@ send input typed into console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint.js";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))
@@ -536,7 +536,7 @@ send input piped to console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint.js";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))

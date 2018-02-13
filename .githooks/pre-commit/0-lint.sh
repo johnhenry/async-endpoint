@@ -2,6 +2,7 @@
 #!/bin/sh
 echo "\nLinting code...\n"
 
+# Get .js and .jsx file
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".jsx\{0,1\}$")
 
 if [[ "$STAGED_FILES" = "" ]]; then
@@ -13,22 +14,12 @@ PASS=true
 for FILE in $STAGED_FILES
 do
 
-  if [[ "$FILE" != "flow-sub-modules/"* ]]; then
+  # Skip files not in flow directory
+  if [[ "$FILE" != "flow/"* ]]; then
     continue
   fi
 
-  if [ "$FILE" == "index.js" ]; then
-    continue
-  fi
-
-  if [ "$FILE" == "index.mjs" ]; then
-    continue
-  fi
-  
-  if [[ "$FILE" == "tests/"* ]]; then
-    continue
-  fi
-
+  #fix file
   echo "fixing $FILE"
   npm run fix "$FILE"
 

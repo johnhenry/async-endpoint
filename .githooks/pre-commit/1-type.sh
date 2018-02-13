@@ -1,10 +1,5 @@
 #!/bin/sh
 echo "\nType Checking...\n"
+## run type check
 npm run flow check
-rm -rf browser
-rm -rf node
-npm run type
-cp index.js browser/index.js
-git add browser
-git add .
 echo "\033[42mType Checking Successful!\033[0m\n"
