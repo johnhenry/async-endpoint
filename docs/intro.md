@@ -130,7 +130,7 @@ Puttig it all together, we can write an interactive program like this:
 (Note that instead of defining a render function, we're using the
 generic `renderer` from the `async-endpoit` library instead of writing our own this time).
 
-**Example 5** --
+**Example 5**
 
 ```javascript
 import { channel, inputConsole, renderer } from "async-endpoint";
