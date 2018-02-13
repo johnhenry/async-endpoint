@@ -1,5 +1,5 @@
 import tape from "tape";
-import { createAsyncPair, identity } from "../";
+import { channel, identity } from "../";
 const DELAY = 4;
 
 //Handle Asynchronous Tests
@@ -12,7 +12,7 @@ tape.onFailure(() => {
 });
 
 tape("test identity", async ({ isEqual, end }) => {
-  const [request, respond] = createAsyncPair();
+  const [request, respond] = channel();
   const inputs = [1, 2, 3];
   const expected = [1, 2, 3];
   const program = identity(undefined, request);

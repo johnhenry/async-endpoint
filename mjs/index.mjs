@@ -47,12 +47,12 @@
  */
 
 /**
- * @name createAsyncPair
+ * @name channel
  * @description creates a pair of asynchronous functions used to transfer objects between programs
  * @returns {AsyncPair} array of paired functions
  * @example
- * import {createAsyncPair} from "async-endpoint";
- * const [request, respond] = createAsyncPair();
+ * import {channel} from "async-endpoint";
+ * const [request, respond] = channel();
  * const main = async()=>{
  *      setTimeout(()=>{
  *          respond("hello");
@@ -62,7 +62,7 @@
  * main();
  * //logs "hello"
  */
-export { default as createAsyncPair } from "./create-async-pair.mjs";
+export { default as channel } from "./channel.mjs";
 
 /**
  * @function composePrograms
@@ -73,7 +73,7 @@ export { default as createAsyncPair } from "./create-async-pair.mjs";
  * @example
  * import {composePrograms} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
- * const [request, respond] = createAsyncPair();
+ * const [request, respond] = channel();
  * const program = composePrograms(request, program1, program2, program3);
  * window.respond = respond;
  */
@@ -212,7 +212,7 @@ export {
  * @param {...*} initial - initial items in queue
  * @returns {PushPair} queue and push function
  * @example
- * import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+ * import {createQueue, channel, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [queue, push] createQueue();
  * const passthrough = createPassThrough(push);
@@ -228,7 +228,7 @@ export { default as createQueue } from "./queue/create-queue.mjs";
  * @param {...*} initial - initial items on stack
  * @returns {PushPair} stack and push function
  * @example
- * import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+ * import {createStack, channel, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [stack, push] createStack();
  * const passthrough = createPassThrough(push);
@@ -244,7 +244,7 @@ export { default as createStack } from "./queue/create-stack.mjs";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint";
+ * import {createProgramQueue, channel, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [queue, push] = createProgramQueue();
  * push(porgram1(), program2(), program3());
@@ -259,7 +259,7 @@ export { default as programQueue } from "./queue/create-program-queue.mjs";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramStack, createAsyncPair, renderer} from "async-endpoint";
+ * import {createProgramStack, channel, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [stack, push] = createProgramStack();
  * push(porgram1(), program2(), program3());
@@ -308,8 +308,8 @@ export { default as takeWhile } from "./take/while.mjs";
  * @param {PairedRequest} request - request function for input
  * @returns {AsynchronousIterator} resulting iterator
  * @example
- * import {identity, renderer createAsyncPair} from "async-endpoint";
- * const [request, respond] = createAsyncPair();
+ * import {identity, renderer channel} from "async-endpoint";
+ * const [request, respond] = channel();
  * identity(undefined, request);
  * window.respond = respond
  */
@@ -373,7 +373,7 @@ export { default as tee } from "./renderer/tee.mjs";
  * @description send input typed into console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint";
+ * import {inputConsole, identity, channel, renderer} from "async-endpoint";
  * const [request, respond] = creteAsyncPair();
  * const render = renderer();
  * render(identity(undefined, request))
@@ -386,7 +386,7 @@ export { default as inputConsole } from "./input/console.mjs";
  * @description send input piped to console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint";
+ * import {inputPipe, identity, channel, renderer} from "async-endpoint";
  * const [request, respond] = creteAsyncPair();
  * const render = renderer();
  * render(identity(undefined, request))

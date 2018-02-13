@@ -1,5 +1,5 @@
 //@flow
-import createAsyncPair from "./create-async-pair.js";
+import createAsyncPair from "./channel.js";
 import map from "./array-like/map.js";
 import passthrough from "./renderer/index.js";
 import composeAsyncTransformer from "./compose-async-transformers.js";

@@ -1,7 +1,7 @@
 ## Members
 
 <dl>
-<dt><a href="#createAsyncPair">createAsyncPair</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></dt>
+<dt><a href="#channel">channel</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></dt>
 <dd><p>creates a pair of asynchronous functions used to transfer objects between programs</p>
 </dd>
 </dl>
@@ -99,17 +99,17 @@ It may be advantageous to use this along side a programQueue</p>
 </dd>
 </dl>
 
-<a name="createAsyncPair"></a>
+<a name="channel"></a>
 
-## createAsyncPair ⇒ [<code>AsyncPair</code>](#AsyncPair)
+## channel ⇒ [<code>AsyncPair</code>](#AsyncPair)
 creates a pair of asynchronous functions used to transfer objects between programs
 
 **Kind**: global variable  
 **Returns**: [<code>AsyncPair</code>](#AsyncPair) - array of paired functions  
 **Example**  
 ```js
-import {createAsyncPair} from "async-endpoint";
-const [request, respond] = createAsyncPair();
+import {channel} from "async-endpoint";
+const [request, respond] = channel();
 const main = async()=>{
      setTimeout(()=>{
          respond("hello");
@@ -136,7 +136,7 @@ composes programs sequentially with a single input
 ```js
 import {composePrograms} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
-const [request, respond] = createAsyncPair();
+const [request, respond] = channel();
 const program = composePrograms(request, program1, program2, program3);
 window.respond = respond;
 ```
@@ -309,7 +309,7 @@ create a queue iterator
 
 **Example**  
 ```js
-import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createQueue, channel, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [queue, push] createQueue();
 const passthrough = createPassThrough(push);
@@ -331,7 +331,7 @@ create a stack iterator
 
 **Example**  
 ```js
-import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createStack, channel, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [stack, push] createStack();
 const passthrough = createPassThrough(push);
@@ -349,7 +349,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint";
+import {createProgramQueue, channel, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [queue, push] = createProgramQueue();
 push(porgram1(), program2(), program3());
@@ -366,7 +366,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramStack, createAsyncPair, renderer} from "async-endpoint";
+import {createProgramStack, channel, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [stack, push] = createProgramStack();
 push(porgram1(), program2(), program3());
@@ -430,8 +430,8 @@ program that outputs what ever is put throught
 
 **Example**  
 ```js
-import {identity, renderer createAsyncPair} from "async-endpoint";
-const [request, respond] = createAsyncPair();
+import {identity, renderer channel} from "async-endpoint";
+const [request, respond] = channel();
 identity(undefined, request);
 window.respond = respond
 ```
@@ -517,7 +517,7 @@ send input typed into console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputConsole, identity, channel, renderer} from "async-endpoint";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))
@@ -536,7 +536,7 @@ send input piped to console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputPipe, identity, channel, renderer} from "async-endpoint";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))

@@ -1,6 +1,7 @@
 #!/bin/sh
 # Allows us to read user input below, assigns stdin to keyboard
 exec < /dev/tty
+
 while true; do
   read -p "Finalize this commit? (y/n)" yn
   if [ "$yn" = "" ]; then

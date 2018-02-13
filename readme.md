@@ -26,36 +26,36 @@ This repository provides a brief intoduction to asynchronous endpoints\*\*, alon
   * <a href="#introduction-asynchronous-input">Asynchronous Input</a>
 
 * <a href="#application-programming-interface">API</a>
-
 # <a name="introduction"></a>Introduction
 
 Many programming languages use the concept of functions as [entry points](https://en.wikipedia.org/wiki/Entry_point) to transfer control between programs.
-
 
 ## <a name="introduction-synchronous-endpoints"></a> Synchronous Endpoints
 
 In javascript, this is as simple as writing a function and calling it:
 
 **Example 1**
+
 ```javascript
-const program = function(){
-    console.log("hello world");
-}
+const program = function() {
+  console.log("hello world");
+};
 
 program();
 //logs "hello world"
 ```
 
 Taking a queue from functional programming, we can remove the logging side affect from the main program
-into a separate __render__ function that logs the result retuned from running:
+into a separate **render** function that logs the result retuned from running:
 
 **Example 2**
+
 ```javascript
 const render = console.log;
 
-const program = function(){
-    return "hello world";
-}
+const program = function() {
+  return "hello world";
+};
 
 render(program());
 //logs "hello world"
@@ -64,22 +64,23 @@ render(program());
 ## <a name="introduction-synchronous-iteration"></a> Synchronous Iteration
 
 Provided that our render function expects an iterator,
-We can construct our program with a __generator function__ to yeild multiple results:
+We can construct our program with a **generator function** to yeild multiple results:
 
 **Example 3**
+
 ```javascript
-const render = (iterator)=>{
-    //as the result is an iterator
-    //we iterate though it and log each subsequent result 
-    for(const result of iterator){
-        console.log(result);
-    }
+const render = iterator => {
+  //as the result is an iterator
+  //we iterate though it and log each subsequent result
+  for (const result of iterator) {
+    console.log(result);
+  }
 };
 
-const program = function*(){
-    yield "hello";
-    yield "world";
-}
+const program = function*() {
+  yield "hello";
+  yield "world";
+};
 
 render(program());
 //logs "hello"
@@ -88,23 +89,24 @@ render(program());
 
 ## <a name="introduction-asynchronous-iteration"></a> Asynchronous Iteration
 
-When using __asynchronous generators__, we can __await__ asynchronous APIs,
+When using **asynchronous generators**, we can **await** asynchronous APIs,
 though we must again make sure to modify our fetch function.
 
 **Example 4**
+
 ```javascript
-const render = async (asynchronousIterator)=>{
-    //we use the "for await" construct for Asynchronous Iterators
-    for await(const result of asynchronousIterator){
-        console.log(result);
-    }
+const render = async asynchronousIterator => {
+  //we use the "for await" construct for Asynchronous Iterators
+  for await (const result of asynchronousIterator) {
+    console.log(result);
+  }
 };
 
-const program = async function *(){
-    yield "fetching...";
-    yield await fetch("https://www.google.com");
-    yield "results fetched.";
-}
+const program = async function*() {
+  yield "fetching...";
+  yield await fetch("https://www.google.com");
+  yield "results fetched.";
+};
 render(program());
 //logs "fetching..."
 //logs result from fetch.
@@ -123,11 +125,12 @@ While you can create these functions yourself,
 a method of creating them is included with the `async-endpoint` library.
 
 ```javascript
-import {createAsyncPair} from "async-endpoint";
-const [request, respond] = createAsyncPair();
+import { channel } from "async-endpoint";
+const [request, respond] = channel();
 ```
 
 By convention, we'll pass two arguments to our asynchronous generator function:
+
     - an _init_ object, which may or may not be ignored
     - the aforementioned _request_ function
 
@@ -141,13 +144,13 @@ Finally, we need to connect the _respond_ object to user input.
 If running in a browser, you could simply attach it to the window object:
 
 ```javascript
-window.respond = respond
+window.respond = respond;
 ```
 
 Or, if running in node, you can use the included `inputConsole` function:
 
 ```javascript
-import {inputConsole} from "async-endpoint";
+import { inputConsole } from "async-endpoint";
 inputConsole(respond);
 ```
 
@@ -155,29 +158,31 @@ Puttig it all together, we can write an interactive program like this:
 (Note that instead of defining a render function, we're using the
 generic `renderer` from the `async-endpoit` library instead of writing our own this time).
 
-**Example 5** -- 
+**Example 5** --
+
 ```javascript
-import {createAsyncPair, inputConsole, renderer} from "async-endpoint";
+import { channel, inputConsole, renderer } from "async-endpoint";
 
 const render = renderer();
 
-const program = async function *(init, request){
-    yield "What's your name?";
-    yield `Hello ${await request()}`;
-}
+const program = async function*(init, request) {
+  yield "What's your name?";
+  yield `Hello ${await request()}`;
+};
 
-const [request, respond] = createAsyncPair();
+const [request, respond] = channel();
 
 inputConsole(respond);
 
-render(program(undefined, request));//the init object will be ignored
+render(program(undefined, request)); //the init object will be ignored
 //logs "
 ```
+
 # <a name="application-programming-interface"></a> API
 ## Members
 
 <dl>
-<dt><a href="#createAsyncPair">createAsyncPair</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></dt>
+<dt><a href="#channel">channel</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></dt>
 <dd><p>creates a pair of asynchronous functions used to transfer objects between programs</p>
 </dd>
 </dl>
@@ -275,17 +280,17 @@ It may be advantageous to use this along side a programQueue</p>
 </dd>
 </dl>
 
-<a name="createAsyncPair"></a>
+<a name="channel"></a>
 
-## createAsyncPair ⇒ [<code>AsyncPair</code>](#AsyncPair)
+## channel ⇒ [<code>AsyncPair</code>](#AsyncPair)
 creates a pair of asynchronous functions used to transfer objects between programs
 
 **Kind**: global variable  
 **Returns**: [<code>AsyncPair</code>](#AsyncPair) - array of paired functions  
 **Example**  
 ```js
-import {createAsyncPair} from "async-endpoint";
-const [request, respond] = createAsyncPair();
+import {channel} from "async-endpoint";
+const [request, respond] = channel();
 const main = async()=>{
      setTimeout(()=>{
          respond("hello");
@@ -312,7 +317,7 @@ composes programs sequentially with a single input
 ```js
 import {composePrograms} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
-const [request, respond] = createAsyncPair();
+const [request, respond] = channel();
 const program = composePrograms(request, program1, program2, program3);
 window.respond = respond;
 ```
@@ -485,7 +490,7 @@ create a queue iterator
 
 **Example**  
 ```js
-import {createQueue, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createQueue, channel, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [queue, push] createQueue();
 const passthrough = createPassThrough(push);
@@ -507,7 +512,7 @@ create a stack iterator
 
 **Example**  
 ```js
-import {createStack, createAsyncPair, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createStack, channel, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [stack, push] createStack();
 const passthrough = createPassThrough(push);
@@ -525,7 +530,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramQueue, createAsyncPair, renderer} from "async-endpoint";
+import {createProgramQueue, channel, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [queue, push] = createProgramQueue();
 push(porgram1(), program2(), program3());
@@ -542,7 +547,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramStack, createAsyncPair, renderer} from "async-endpoint";
+import {createProgramStack, channel, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [stack, push] = createProgramStack();
 push(porgram1(), program2(), program3());
@@ -606,8 +611,8 @@ program that outputs what ever is put throught
 
 **Example**  
 ```js
-import {identity, renderer createAsyncPair} from "async-endpoint";
-const [request, respond] = createAsyncPair();
+import {identity, renderer channel} from "async-endpoint";
+const [request, respond] = channel();
 identity(undefined, request);
 window.respond = respond
 ```
@@ -693,7 +698,7 @@ send input typed into console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputConsole, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputConsole, identity, channel, renderer} from "async-endpoint";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))
@@ -712,7 +717,7 @@ send input piped to console to a PairedRespond function
 
 **Example**  
 ```js
-import {inputPipe, identity, createAsyncPair, renderer} from "async-endpoint";
+import {inputPipe, identity, channel, renderer} from "async-endpoint";
 const [request, respond] = creteAsyncPair();
 const render = renderer();
 render(identity(undefined, request))

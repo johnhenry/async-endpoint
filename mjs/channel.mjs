@@ -1,13 +1,19 @@
 //     
-export default () => {
+export default (limit         = Infinity) => {
   let releaseRequest           = () => {};
   let releaseResponse           = () => {};
   //Calling request will return a new promise that's primed to resolve with the arguments of respond when next called
   const request = (debug      = undefined)             => {
+    let lastAnswer     ;
+    if (limit < 1) {
+      return Promise.resolve(lastAnswer);
+    }
+    limit--;
     setTimeout(releaseResponse);
     const returnPromise = new Promise((outerResolve          )           => {
       releaseRequest = (answer     )             => {
         const returnPromiseB = new Promise(innerResolve => {
+          let lastAnswer = answer;
           outerResolve(answer);
           releaseResponse = () => innerResolve(debug);
           return releaseResponse;
@@ -24,4 +30,4 @@ export default () => {
   return [request, respond];
 };
 
-//# sourceMappingURL=create-async-pair.js.map
+//# sourceMappingURL=channel.js.map

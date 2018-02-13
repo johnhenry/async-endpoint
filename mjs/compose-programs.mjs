@@ -1,5 +1,5 @@
 //     
-import createAsyncPair from "./create-async-pair.mjs";
+import createAsyncPair from "./channel.mjs";
 import map from "./array-like/map.mjs";
 import passthrough from "./renderer/index.mjs";
 import composeAsyncTransformer from "./compose-async-transformers.mjs";

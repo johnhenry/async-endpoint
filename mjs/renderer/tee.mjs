@@ -1,5 +1,5 @@
 //     
-import createAsyncPair from "../create-async-pair.mjs";
+import createAsyncPair from "../channel.mjs";
 import createPassThrought from "./index.mjs";
 import composeAsyncTransformer from "../compose-async-transformers.mjs";
 export default (...programs                 ) => {
