@@ -5,7 +5,7 @@ if [ "$version" != "" ]; then
     branch=$(git rev-parse --abbrev-ref HEAD)
     echo "Pushing to remote repository..."  
     #
-    git push origin $branch
+    git push origin $branch --tags
     if [branch == "master"]; then
         echo "Publishing..."  
         npm publish
