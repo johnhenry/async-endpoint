@@ -1,5 +1,5 @@
 //@flow
-import createAsyncPair from "./channel.js";
+import channel from "./channel.js";
 import map from "./array-like/map.js";
 import passthrough from "./renderer/index.js";
 import composeAsyncTransformer from "./compose-async-transformers.js";
@@ -22,7 +22,7 @@ export default (...programs: Array<any>) => (initialRequest: Function) => {
       a = output[2];
       b = output[3];
     }
-    const [requestNext, respond] = createAsyncPair();
+    const [requestNext, respond] = channel();
     passthrough(
       program(init, composeAsyncTransformer(a, request)),
       composeAsyncTransformer(respond, b)

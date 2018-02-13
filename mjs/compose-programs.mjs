@@ -1,5 +1,5 @@
 //     
-import createAsyncPair from "./channel.mjs";
+import channel from "./channel.mjs";
 import map from "./array-like/map.mjs";
 import passthrough from "./renderer/index.mjs";
 import composeAsyncTransformer from "./compose-async-transformers.mjs";
@@ -22,7 +22,7 @@ export default (...programs            ) => (initialRequest          ) => {
       a = output[2];
       b = output[3];
     }
-    const [requestNext, respond] = createAsyncPair();
+    const [requestNext, respond] = channel();
     passthrough(
       program(init, composeAsyncTransformer(a, request)),
       composeAsyncTransformer(respond, b)
