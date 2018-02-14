@@ -1595,15 +1595,22 @@ var _this$7 = undefined;
 
 //     
 /*global process */
-var rl = readline.createInterface({
+readline.createInterface = readline.createInterface || function () {
+  console.warn("readline has no browser equivalent");
+  return {
+    question: function question() {
+      console.warn("readline has no browser equivalent");
+    }
+  };
+}; //Shim included in browser
+
+var rl = readline.createInterface && readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 var get$1 = function get$$1() {
   return new Promise(function (resolve) {
-    //rl.pause();
-    //rl.question(">", answer => resolve(answer.slice(0, answer.length - 1)));
-    rl.question(">", function (answer) {
+    return rl.question(">", function (answer) {
       return resolve(answer);
     });
   });

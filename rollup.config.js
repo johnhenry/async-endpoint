@@ -10,7 +10,7 @@ export default {
       format: "cjs"
     },
     {
-      file: "broswer.js",
+      file: "browser.js",
       format: "iife",
       name: "AsyncEndpoint"
     }
