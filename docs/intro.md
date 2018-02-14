@@ -149,5 +149,3 @@ inputConsole(respond);
 render(program(undefined, request)); //the init object will be ignored
 //logs "
 ```
-
-# <a name="application-programming-interface"></a> API

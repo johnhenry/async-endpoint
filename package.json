@@ -6,7 +6,7 @@
   "main": "common.mjs",
   "scripts": {
     "test": "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
-    "docs": "jsdoc2md js/index.js > docs/api.md && cat docs/preamble.md docs/intro.md docs/api.md > readme.md",
+    "docs": "jsdoc2md js/index.js > docs/api.md && cat docs/preamble.md docs/intro.md docs/import.md docs/api.md > readme.md",
     "type": "flow-remove-types --out-dir js/ flow/ --sourcemaps",
     "flow": "flow",
     "fix": "echo \"linting temporarliy disabled\" && : ",
