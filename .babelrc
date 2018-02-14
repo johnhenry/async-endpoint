@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "spec":true,
+        "node": "current",
+        "browsers": "last 3 versions"
+      },
+      "production": {
+        "presets": ["minify"]
+      }
+    }]
+  ],
+  "plugins": ["external-helpers", "transform-async-generator-functions"]
+}

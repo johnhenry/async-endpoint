@@ -16,5 +16,7 @@ find ./mjs/ -type f -exec sed -i 's/.js"/.mjs"/g' {} +
 touch mjs/_DO_NOT_EDIT
 git add mjs/
 # echo "Creating Common JS and Browser Files"
-# npm run rollup
+npm run rollup
+git add browser.js
+git add common.js
 echo "\033[42mType Checking Successful!\033[0m\n"

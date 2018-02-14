@@ -1,5 +1,5 @@
 import tape from "tape";
-import { channel, identity } from "../";
+import { channel, identity } from "../mjs/";
 const DELAY = 4;
 
 //Handle Asynchronous Tests
