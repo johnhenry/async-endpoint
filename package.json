@@ -3,7 +3,7 @@
   "version": "0.0.16",
   "description": "",
   "private": false,
-  "main": "common.mjs",
+  "main": "common.js",
   "scripts": {
     "test": "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
     "docs": "jsdoc2md js/index.js > docs/api.md && cat docs/preamble.md docs/intro.md docs/import.md docs/api.md > readme.md",
