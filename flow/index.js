@@ -393,5 +393,3 @@ export { default as inputConsole } from "./input/console.js";
  * inputPipe(respond);
  */
 export { default as inputPipe } from "./input/pipe.js";
-//
-export default {};

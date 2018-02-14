@@ -393,7 +393,5 @@ export { default as inputConsole } from "./input/console.mjs";
  * inputPipe(respond);
  */
 export { default as inputPipe } from "./input/pipe.mjs";
-//
-export default {};
 
 //# sourceMappingURL=index.js.map

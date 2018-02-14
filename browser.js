@@ -1876,10 +1876,7 @@ var pipe = (function () {
  * main();
  * //logs "hello"
  */
-//
-var index$1 = {};
 
-exports.default = index$1;
 exports.channel = channel;
 exports.composeProgram = composePrograms;
 exports.map = map;
