@@ -1,6 +1,6 @@
 {
   "name": "async-endpoint",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "",
   "private": false,
   "main": "common.js",
