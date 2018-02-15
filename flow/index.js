@@ -373,23 +373,26 @@ export { default as tee } from "./renderer/tee.js";
  * @description send input typed into console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputConsole, identity, channel, renderer} from "async-endpoint";
+ * import {identity, channel, renderer} from "async-endpoint";
+ * import inputConsole from "async-endpoint/input/console";
+
  * const [request, respond] = channel();
  * const render = renderer();
  * render(identity(undefined, request))
  * inputConsole(respond);
  */
-export { default as inputConsole } from "./input/console.js";
+// export { default as inputConsole } from "./input/console.js";
 
 /**
  * @function inputPipe
  * @description send input piped to console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {inputPipe, identity, channel, renderer} from "async-endpoint";
+ * import {identity, channel, renderer} from "async-endpoint";
+ * import inputPipe from "async-endpoint/input/pipe";
  * const [request, respond] = channel();
  * const render = renderer();
  * render(identity(undefined, request))
  * inputPipe(respond);
  */
-export { default as inputPipe } from "./input/pipe.js";
+// export { default as inputPipe } from "./input/pipe.js";

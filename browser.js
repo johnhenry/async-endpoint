@@ -2301,255 +2301,6 @@ var tee = (function () {
   }();
 });
 
-var readline = {};
-
-//Uncodumented browser shim
-var readPrompt = {
-  createInterface: function createInterface() {
-    return {
-      question: function () {
-        var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(q, callback) {
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  callback(window.prompt(q));
-
-                case 1:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, this);
-        }));
-
-        function question(_x, _x2) {
-          return _ref.apply(this, arguments);
-        }
-
-        return question;
-      }()
-    };
-  }
-};
-
-var _this$7 = undefined;
-
-//     
-/*global process */
-var rl = void 0;
-if (typeof process !== "undefined") {
-  rl = readline.createInterface({
-    input: {},
-    output: {}
-  });
-} else {
-  rl = readPrompt.createInterface();
-}
-var get$1 = function get$$1() {
-  return new Promise(function (resolve) {
-    return rl.question(">", function (answer) {
-      return resolve(answer);
-    });
-  });
-};
-var console$1 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-  for (var _len = arguments.length, inputs = Array(_len), _key = 0; _key < _len; _key++) {
-    inputs[_key] = arguments[_key];
-  }
-
-  var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, input;
-
-  return regeneratorRuntime.wrap(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          
-
-          _iteratorNormalCompletion = true;
-          _didIteratorError = false;
-          _iteratorError = undefined;
-          _context.prev = 4;
-          _iterator = inputs[Symbol.iterator]();
-
-        case 6:
-          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-            _context.next = 17;
-            break;
-          }
-
-          input = _step.value;
-          _context.t0 = input;
-          _context.next = 11;
-          return get$1();
-
-        case 11:
-          _context.t1 = _context.sent;
-          _context.next = 14;
-          return (0, _context.t0)(_context.t1);
-
-        case 14:
-          _iteratorNormalCompletion = true;
-          _context.next = 6;
-          break;
-
-        case 17:
-          _context.next = 23;
-          break;
-
-        case 19:
-          _context.prev = 19;
-          _context.t2 = _context["catch"](4);
-          _didIteratorError = true;
-          _iteratorError = _context.t2;
-
-        case 23:
-          _context.prev = 23;
-          _context.prev = 24;
-
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-
-        case 26:
-          _context.prev = 26;
-
-          if (!_didIteratorError) {
-            _context.next = 29;
-            break;
-          }
-
-          throw _iteratorError;
-
-        case 29:
-          return _context.finish(26);
-
-        case 30:
-          return _context.finish(23);
-
-        case 31:
-          _context.next = 0;
-          break;
-
-        case 33:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _callee, _this$7, [[4, 19, 23, 31], [24,, 26, 30]]);
-}));
-
-var _this$8 = undefined;
-
-//     
-/*global process */
-var pipe = (function () {
-  var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(opts) {
-    for (var _len = arguments.length, inputs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      inputs[_key - 1] = arguments[_key];
-    }
-
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            // let options = {};
-            // if (typeof opts === "object") {
-            //     options = Object.assign(options, opts);
-            // } else {
-            //     inputs.unshift(opts);
-            // }
-            if (typeof process !== "undefined") {
-              (function () {})("data", function () {
-                var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(answer) {
-                  var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, input;
-
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          _iteratorNormalCompletion = true;
-                          _didIteratorError = false;
-                          _iteratorError = undefined;
-                          _context.prev = 3;
-                          _iterator = inputs[Symbol.iterator]();
-
-                        case 5:
-                          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                            _context.next = 12;
-                            break;
-                          }
-
-                          input = _step.value;
-                          _context.next = 9;
-                          return input(answer);
-
-                        case 9:
-                          _iteratorNormalCompletion = true;
-                          _context.next = 5;
-                          break;
-
-                        case 12:
-                          _context.next = 18;
-                          break;
-
-                        case 14:
-                          _context.prev = 14;
-                          _context.t0 = _context["catch"](3);
-                          _didIteratorError = true;
-                          _iteratorError = _context.t0;
-
-                        case 18:
-                          _context.prev = 18;
-                          _context.prev = 19;
-
-                          if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                          }
-
-                        case 21:
-                          _context.prev = 21;
-
-                          if (!_didIteratorError) {
-                            _context.next = 24;
-                            break;
-                          }
-
-                          throw _iteratorError;
-
-                        case 24:
-                          return _context.finish(21);
-
-                        case 25:
-                          return _context.finish(18);
-
-                        case 26:
-                        case "end":
-                          return _context.stop();
-                      }
-                    }
-                  }, _callee, _this$8, [[3, 14, 18, 26], [19,, 21, 25]]);
-                }));
-
-                return function (_x2) {
-                  return _ref2.apply(this, arguments);
-                };
-              }());
-            }
-
-          case 1:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, _this$8);
-  }));
-
-  return function (_x) {
-    return _ref.apply(this, arguments);
-  };
-})();
-
 /* eslint-disable */
 /**
  * @typedef {Function} PairedRequest
@@ -2615,6 +2366,37 @@ var pipe = (function () {
  * //logs "hello"
  */
 
+
+//input
+/**
+ * @function inputConsole
+ * @description send input typed into console to a PairedRespond function
+ * @param {PairedRespond} respond - request function for input
+ * @example
+ * import {identity, channel, renderer} from "async-endpoint";
+ * import inputConsole from "async-endpoint/input/console";
+
+ * const [request, respond] = channel();
+ * const render = renderer();
+ * render(identity(undefined, request))
+ * inputConsole(respond);
+ */
+// export { default as inputConsole } from "./input/console.js";
+
+/**
+ * @function inputPipe
+ * @description send input piped to console to a PairedRespond function
+ * @param {PairedRespond} respond - request function for input
+ * @example
+ * import {identity, channel, renderer} from "async-endpoint";
+ * import inputPipe from "async-endpoint/input/pipe";
+ * const [request, respond] = channel();
+ * const render = renderer();
+ * render(identity(undefined, request))
+ * inputPipe(respond);
+ */
+// export { default as inputPipe } from "./input/pipe.js";
+
 exports.channel = channel;
 exports.composeProgram = composePrograms;
 exports.map = map;
@@ -2633,8 +2415,6 @@ exports.identity = identity;
 exports.continuousOutput = continuousOutput;
 exports.renderer = createPassThrought;
 exports.tee = tee;
-exports.inputConsole = console$1;
-exports.inputPipe = pipe;
 
 return exports;
 

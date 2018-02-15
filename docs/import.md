@@ -24,9 +24,10 @@ import * as AsyncEndpoint from = "async-endpoint/common.js";
 
 ### Browser
 
-There is also a rollup of the package for the browser,
+There is also a rollup of the package for the browser, 
 though there are a number of issues getting this to work out of the box.
-You're probably better off pointing directly to the files in the "js" or "mjs" folders and using a bundler.
+You're probably better off pointing directly to the files in the 
+"js" or "mjs" folders and using a bundler.
 
 ```html
     <script src = ".../async-endpoint/browser.js"></script>
@@ -81,17 +82,11 @@ necessary to get this to work.
 To ensure compatibility with other browsers use the above **browser.js** module.
 You can also re-bundle either the flow, js, or mjs folders.
 
-Note: when importing these into a browser, there ar still specific issues concering importing node-specific modues.
-For now, you may import the files directly. 
-
-
 ```javascript
 //Use
 import map from "async-endpoint/js/array-like/map.js";
 //rather than 
 import {map} from "async-endpoint/js/index.js";
-
-
 ``` 
 
 
