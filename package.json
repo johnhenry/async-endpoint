@@ -10,7 +10,7 @@
     "type": "flow-remove-types --out-dir js/ flow/ --sourcemaps",
     "flow": "flow",
     "fix": "echo \"linting temporarliy disabled\" && : ",
-    "rollup": "rollup -c"
+    "rollup": "rollup -c ./rollup.config-browser.js && rollup -c ./rollup.config-common.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +19,10 @@
   "author": "john@iamjohnhenry.com",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-plugin-async-import": "^1.0.0-alpha.1",
+    "babel-plugin-external-helpers": "6.22.0",
     "babel-plugin-transform-async-generator-functions": "6.24.1",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-preset-env": "1.6.1",
@@ -32,14 +34,16 @@
     "flow-remove-types": "^1.2.3",
     "git-hooks": "^1.1.9",
     "jsdoc-to-markdown": "^3.0.1",
-    "tape": "github:johnhenry/tape#v4.9.0",
-    "babel-core": "6.26.0",
-    "babel-plugin-external-helpers": "6.22.0",
     "rollup": "0.55.5",
     "rollup-plugin-babel": "3.0.3",
-    "rollup-plugin-node-resolve": "3.0.2"
+    "rollup-plugin-node-resolve": "3.0.2",
+    "tape": "github:johnhenry/tape#v4.9.0"
   },
   "dependencies": {
-    "rollup-plugin-node-builtins": "2.1.2"
+    "babel-polyfill": "6.26.0",
+    "rollup-plugin-node-builtins": "2.1.2",
+    "rollup-plugin-prepack": "1.0.0",
+    "rollup-plugin-regenerator": "0.5.4",
+    "rollup-plugin-replace": "2.0.0"
   }
 }

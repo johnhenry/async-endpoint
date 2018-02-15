@@ -374,7 +374,7 @@ export { default as tee } from "./renderer/tee.js";
  * @param {PairedRespond} respond - request function for input
  * @example
  * import {inputConsole, identity, channel, renderer} from "async-endpoint";
- * const [request, respond] = creteAsyncPair();
+ * const [request, respond] = channel();
  * const render = renderer();
  * render(identity(undefined, request))
  * inputConsole(respond);
@@ -387,7 +387,7 @@ export { default as inputConsole } from "./input/console.js";
  * @param {PairedRespond} respond - request function for input
  * @example
  * import {inputPipe, identity, channel, renderer} from "async-endpoint";
- * const [request, respond] = creteAsyncPair();
+ * const [request, respond] = channel();
  * const render = renderer();
  * render(identity(undefined, request))
  * inputPipe(respond);

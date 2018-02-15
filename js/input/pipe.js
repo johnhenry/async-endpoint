@@ -7,13 +7,15 @@ export default async (opts     , ...inputs            ) => {
   // } else {
   //     inputs.unshift(opts);
   // }
-  process.stdin.resume();
-  //process.setEncoding("utf8");
-  process.stdin.on("data", async answer => {
-    for (const input of inputs) {
-      await input(answer);
-    }
-  });
+  if (typeof process !== "undefined") {
+    process.stdin.resume();
+    //process.setEncoding("utf8");
+    process.stdin.on("data", async answer => {
+      for (const input of inputs) {
+        await input(answer);
+      }
+    });
+  }
 };
 
 //# sourceMappingURL=pipe.js.map

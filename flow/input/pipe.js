@@ -7,11 +7,13 @@ export default async (opts: any, ...inputs: Array<any>) => {
   // } else {
   //     inputs.unshift(opts);
   // }
-  process.stdin.resume();
-  //process.setEncoding("utf8");
-  process.stdin.on("data", async answer => {
-    for (const input of inputs) {
-      await input(answer);
-    }
-  });
+  if (typeof process !== "undefined") {
+    process.stdin.resume();
+    //process.setEncoding("utf8");
+    process.stdin.on("data", async answer => {
+      for (const input of inputs) {
+        await input(answer);
+      }
+    });
+  }
 };

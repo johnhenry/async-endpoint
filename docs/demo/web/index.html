@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <script src="../../../browser.js"></script>
+    <script>
+        console.log(AsyncEndpoint);
+    </script>
+    <script type="module">
+        // import { AsyncEndpoint } from "../../../js/index.js"
+        import map from "../../../js/array-like/map.js"
+        import pause from "../../../js/pause.js"
+        import continuousOutput from "../../../js/program/continuous-output.js";
+        let i = 0;
+        const mapped = map(continuousOutput(() => i++), (n) => n + 2);
+        const main = async () => {
+            for await (const item of mapped) {
+                await pause(1000);
+                console.log(item);
+            }
+        }
+        main();
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
