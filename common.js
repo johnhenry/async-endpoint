@@ -232,46 +232,6 @@ var createClass = function () {
 
 
 
-var get = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
 
 
 
@@ -283,13 +243,10 @@ var inherits = function (subClass, superClass) {
 
 
 
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
 
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
+
+
+
 
 
 
@@ -551,7 +508,7 @@ var forEach = (function () {
 })();
 
 //     
-var _filter = (function (iterator, filterer) {
+var filter = (function (iterator, filterer) {
   var newGenerator = function () {
     var _ref = asyncGenerator.wrap( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, item;
@@ -656,7 +613,7 @@ var _filter = (function (iterator, filterer) {
 });
 
 //     
-var _reduce = (function (iterator, reducer, initial) {
+var reduce = (function (iterator, reducer, initial) {
   var condition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {
     return false;
   };
@@ -773,7 +730,7 @@ var _reduce = (function (iterator, reducer, initial) {
 });
 
 //     
-var _reduceRight = (function (iterator, reducer, initial) {
+var reduceRight = (function (iterator, reducer, initial) {
   var condition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {
     return false;
   };
@@ -890,19 +847,17 @@ var _reduceRight = (function (iterator, reducer, initial) {
 });
 
 //     
-var _class = function (_Array) {
-  inherits(_class, _Array);
-
+var _class = function () {
   function _class() {
-    var _ref;
-
     classCallCheck(this, _class);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
+    // super(...args);
+    // $FlowFixMe
+    this._cache = new (Function.prototype.bind.apply(Array, [null].concat(args)))();
   }
 
   createClass(_class, [{
@@ -917,7 +872,7 @@ var _class = function (_Array) {
         this._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "push", this).call(this, value);
+      return this._cache.push(value);
     }
   }, {
     key: "unshift",
@@ -926,7 +881,7 @@ var _class = function (_Array) {
         this._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "unshift", this).call(this, value);
+      return this._cache.unshift(value);
     }
   }, {
     key: "unfreeze",
@@ -946,8 +901,8 @@ var _class = function (_Array) {
     value: function clear() {
       var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Infinity;
 
-      while (this.length && count--) {
-        get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "shift", this).call(this);
+      while (this._cache.length && count--) {
+        this._cache.shift();
       }
     }
   }, {
@@ -960,48 +915,31 @@ var _class = function (_Array) {
       }
     }
   }, {
-    key: "filter",
-    value: function filter(condition) {
-      // $FlowFixMe
-      return _filter(this, condition);
-    }
-  }, {
-    key: "map",
-    value: function map$$1(mapper) {
-      // $FlowFixMe
-      return map(this, mapper);
-    }
-  }, {
-    key: "forEach",
-    value: function forEach$$1(callback) {
-      // $FlowFixMe
-      return map(this, callback);
-    }
-  }, {
-    key: "reduce",
-    value: function reduce() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      // $FlowFixMe
-      return _reduce.apply(undefined, [this].concat(args));
-    }
-  }, {
-    key: "reduceRight",
-    value: function reduceRight() {
-      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      // $FlowFixMe
-      return _reduceRight.apply(undefined, [this].concat(args));
-    }
-  }, {
     key: "next",
+
+    // filter(condition: any): any {
+    //   // $FlowFixMe
+    //   return filter(this, condition);
+    // }
+    // map(mapper: any): any {
+    //   // $FlowFixMe
+    //   return map(this, mapper);
+    // }
+    // forEach(callback: any): any {
+    //   // $FlowFixMe
+    //   return map(this, callback);
+    // }
+    // reduce(...args: any[]): any {
+    //   // $FlowFixMe
+    //   return reduce(this, ...args);
+    // }
+    // reduceRight(...args: any[]): any {
+    //   // $FlowFixMe
+    //   return reduceRight(this, ...args);
+    // }
     value: function () {
-      var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
+      var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this = this;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -1023,25 +961,25 @@ var _class = function (_Array) {
                 return _context.abrupt("return", { value: this._latest, done: true });
 
               case 4:
-                if (!this.length) {
+                if (!this._cache.length) {
                   _context.next = 7;
                   break;
                 }
 
-                this._latest = this.shift();
+                this._latest = this._cache.shift();
                 return _context.abrupt("return", { value: this._latest });
 
               case 7:
                 return _context.abrupt("return", new Promise(function (resolve) {
-                  _this2._resumeIteration = function (value) {
-                    delete _this2._resumeIteration;
-                    delete _this2._endIteration;
-                    _this2._latest = value;
+                  _this._resumeIteration = function (value) {
+                    delete _this._resumeIteration;
+                    delete _this._endIteration;
+                    _this._latest = value;
                     resolve({ value: value });
                   };
-                  _this2._endIteration = function () {
-                    delete _this2._resumeIteration;
-                    delete _this2._endIteration;
+                  _this._endIteration = function () {
+                    delete _this._resumeIteration;
+                    delete _this._endIteration;
                     resolve({ done: true });
                   };
                 }));
@@ -1055,7 +993,7 @@ var _class = function (_Array) {
       }));
 
       function next() {
-        return _ref2.apply(this, arguments);
+        return _ref.apply(this, arguments);
       }
 
       return next;
@@ -1078,7 +1016,7 @@ var _class = function (_Array) {
     }
   }]);
   return _class;
-}(Array);
+}();
 
 var _this$1 = undefined;
 
@@ -2105,9 +2043,9 @@ exports.AsyncArray = _class;
 exports.composeProgram = composePrograms;
 exports.map = map;
 exports.forEach = forEach;
-exports.filter = _filter;
-exports.reduce = _reduce;
-exports.reduceRight = _reduceRight;
+exports.filter = filter;
+exports.reduce = reduce;
+exports.reduceRight = reduceRight;
 exports.pause = pause;
 exports.composeAsyncTransformer = composeAsyncTransformer;
 exports.createQueue = createQueue;

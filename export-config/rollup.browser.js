@@ -11,18 +11,12 @@ export default {
     {
       file: "browser.js",
       format: "iife",
-      name: "window.AsyncEndpoint"
+      name: "window.AsyncEndpoint",
+      extend: true
     }
   ],
   plugins: [
     // prepack(),
-    replace({
-      "process.stdin.on": "(()=>{})",
-      "process.stdin.resume": "(()=>{})",
-      "process.stdin": "{}",
-      "process.stdout": "{}",
-      'import readline from "readline"': 'import readline from "./readprompt"'
-    }),
     builtins(),
     resolve(),
     babel({
@@ -31,7 +25,13 @@ export default {
     }),
     regenerator(),
     replace({
-      this: "window"
+      "process.stdin.on": "(()=>{})",
+      "process.stdin.resume": "(()=>{})",
+      "process.stdin": "{}",
+      "process.stdout": "{}",
+      'import readline from "readline"':
+        'import readline from "./readprompt.js"',
+      "this.window.": "window"
     })
   ]
 };

@@ -727,7 +727,7 @@
 );
 
 this.window = this.window || {};
-this.window.AsyncEndpoint = (function (exports) {
+(function (exports) {
 'use strict';
 
 //     
@@ -960,46 +960,6 @@ var createClass = function () {
 
 
 
-var get = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
 
 
 
@@ -1011,13 +971,10 @@ var inherits = function (subClass, superClass) {
 
 
 
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
 
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
+
+
+
 
 
 
@@ -1173,17 +1130,17 @@ var map = (function (iterator, mapper) {
               return _context.stop();
           }
         }
-      }, _callee, window, [[3, 23, 27, 37], [28,, 32, 36]]);
+      }, _callee, this, [[3, 23, 27, 37], [28,, 32, 36]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return newGenerator();
 });
 
-var _this = window;
+var _this = undefined;
 
 //     
 var forEach = (function () {
@@ -1274,12 +1231,12 @@ var forEach = (function () {
   }));
 
   return function (_x, _x2) {
-    return _ref.apply(window, arguments);
+    return _ref.apply(this, arguments);
   };
 })();
 
 //     
-var _filter = (function (iterator, filterer) {
+var filter = (function (iterator, filterer) {
   var newGenerator = function () {
     var _ref = asyncGenerator.wrap( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, item;
@@ -1373,18 +1330,18 @@ var _filter = (function (iterator, filterer) {
               return _context.stop();
           }
         }
-      }, _callee, window, [[3, 24, 28, 38], [29,, 33, 37]]);
+      }, _callee, this, [[3, 24, 28, 38], [29,, 33, 37]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return newGenerator();
 });
 
 //     
-var _reduce = (function (iterator, reducer, initial) {
+var reduce = (function (iterator, reducer, initial) {
   var condition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {
     return false;
   };
@@ -1490,18 +1447,18 @@ var _reduce = (function (iterator, reducer, initial) {
               return _context.stop();
           }
         }
-      }, _callee, window, [[3, 26, 30, 40], [31,, 35, 39]]);
+      }, _callee, this, [[3, 26, 30, 40], [31,, 35, 39]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return newGenerator();
 });
 
 //     
-var _reduceRight = (function (iterator, reducer, initial) {
+var reduceRight = (function (iterator, reducer, initial) {
   var condition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {
     return false;
   };
@@ -1607,66 +1564,64 @@ var _reduceRight = (function (iterator, reducer, initial) {
               return _context.stop();
           }
         }
-      }, _callee, window, [[3, 26, 30, 40], [31,, 35, 39]]);
+      }, _callee, this, [[3, 26, 30, 40], [31,, 35, 39]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return newGenerator();
 });
 
 //     
-var _class = function (_Array) {
-  inherits(_class, _Array);
-
+var _class = function () {
   function _class() {
-    var _ref;
-
-    classCallCheck(window, _class);
+    classCallCheck(this, _class);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return possibleConstructorReturn(window, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [window].concat(args)));
+    // super(...args);
+    // $FlowFixMe
+    this._cache = new (Function.prototype.bind.apply(Array, [null].concat(args)))();
   }
 
   createClass(_class, [{
     key: "valueOf",
     value: function valueOf() {
-      return window._latest;
+      return this._latest;
     }
   }, {
     key: "push",
     value: function push(value) {
-      if (window._resumeIteration) {
-        window._resumeIteration(value);
+      if (this._resumeIteration) {
+        this._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "push", window).call(window, value);
+      return this._cache.push(value);
     }
   }, {
     key: "unshift",
     value: function unshift(value) {
-      if (window._resumeIteration) {
-        window._resumeIteration(value);
+      if (this._resumeIteration) {
+        this._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "unshift", window).call(window, value);
+      return this._cache.unshift(value);
     }
   }, {
     key: "unfreeze",
     value: function unfreeze() {
-      delete window._frozen;
+      delete this._frozen;
     }
   }, {
     key: "freeze",
     value: function freeze() {
-      window._frozen === true;
-      if (window._resumeIteration) {
-        window._resumeIteration(window._latest);
+      this._frozen === true;
+      if (this._resumeIteration) {
+        this._resumeIteration(this._latest);
       }
     }
   }, {
@@ -1674,68 +1629,51 @@ var _class = function (_Array) {
     value: function clear() {
       var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Infinity;
 
-      while (window.length && count--) {
-        get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "shift", window).call(window);
+      while (this._cache.length && count--) {
+        this._cache.shift();
       }
     }
   }, {
     key: "cancel",
     value: function cancel() {
-      window._canceled = true;
-      window.clear();
-      if (window._endIteration) {
-        window._endIteration();
+      this._canceled = true;
+      this.clear();
+      if (this._endIteration) {
+        this._endIteration();
       }
-    }
-  }, {
-    key: "filter",
-    value: function filter(condition) {
-      // $FlowFixMe
-      return _filter(window, condition);
-    }
-  }, {
-    key: "map",
-    value: function map$$1(mapper) {
-      // $FlowFixMe
-      return map(window, mapper);
-    }
-  }, {
-    key: "forEach",
-    value: function forEach$$1(callback) {
-      // $FlowFixMe
-      return map(window, callback);
-    }
-  }, {
-    key: "reduce",
-    value: function reduce() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      // $FlowFixMe
-      return _reduce.apply(undefined, [window].concat(args));
-    }
-  }, {
-    key: "reduceRight",
-    value: function reduceRight() {
-      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      // $FlowFixMe
-      return _reduceRight.apply(undefined, [window].concat(args));
     }
   }, {
     key: "next",
+
+    // filter(condition: any): any {
+    //   // $FlowFixMe
+    //   return filter(this, condition);
+    // }
+    // map(mapper: any): any {
+    //   // $FlowFixMe
+    //   return map(this, mapper);
+    // }
+    // forEach(callback: any): any {
+    //   // $FlowFixMe
+    //   return map(this, callback);
+    // }
+    // reduce(...args: any[]): any {
+    //   // $FlowFixMe
+    //   return reduce(this, ...args);
+    // }
+    // reduceRight(...args: any[]): any {
+    //   // $FlowFixMe
+    //   return reduceRight(this, ...args);
+    // }
     value: function () {
-      var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this2 = window;
+      var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this = this;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(window._canceled === true)) {
+                if (!(this._canceled === true)) {
                   _context.next = 2;
                   break;
                 }
@@ -1743,33 +1681,33 @@ var _class = function (_Array) {
                 return _context.abrupt("return", { done: true });
 
               case 2:
-                if (!(window._frozen === true)) {
+                if (!(this._frozen === true)) {
                   _context.next = 4;
                   break;
                 }
 
-                return _context.abrupt("return", { value: window._latest, done: true });
+                return _context.abrupt("return", { value: this._latest, done: true });
 
               case 4:
-                if (!window.length) {
+                if (!this._cache.length) {
                   _context.next = 7;
                   break;
                 }
 
-                window._latest = window.shift();
-                return _context.abrupt("return", { value: window._latest });
+                this._latest = this._cache.shift();
+                return _context.abrupt("return", { value: this._latest });
 
               case 7:
                 return _context.abrupt("return", new Promise(function (resolve) {
-                  _this2._resumeIteration = function (value) {
-                    delete _this2._resumeIteration;
-                    delete _this2._endIteration;
-                    _this2._latest = value;
+                  _this._resumeIteration = function (value) {
+                    delete _this._resumeIteration;
+                    delete _this._endIteration;
+                    _this._latest = value;
                     resolve({ value: value });
                   };
-                  _this2._endIteration = function () {
-                    delete _this2._resumeIteration;
-                    delete _this2._endIteration;
+                  _this._endIteration = function () {
+                    delete _this._resumeIteration;
+                    delete _this._endIteration;
                     resolve({ done: true });
                   };
                 }));
@@ -1779,11 +1717,11 @@ var _class = function (_Array) {
                 return _context.stop();
             }
           }
-        }, _callee, window);
+        }, _callee, this);
       }));
 
       function next() {
-        return _ref2.apply(window, arguments);
+        return _ref.apply(this, arguments);
       }
 
       return next;
@@ -1793,22 +1731,22 @@ var _class = function (_Array) {
   }, {
     key: Symbol.asyncIterator,
     value: function value() {
-      return window;
+      return this;
     }
   }, {
     key: "value",
     set: function set$$1(val) {
-      window._latest = val;
-      window.freeze();
+      this._latest = val;
+      this.freeze();
     },
     get: function get$$1() {
-      return window._latest;
+      return this._latest;
     }
   }]);
   return _class;
-}(Array);
+}();
 
-var _this$1 = window;
+var _this$1 = undefined;
 
 //     
 /*eslint no-console: "off"*/
@@ -1979,7 +1917,7 @@ var createPassThrought = (function () {
   };
 });
 
-var _this$2 = window;
+var _this$2 = undefined;
 
 //     
 var composeAsyncTransformer = (function (current) {
@@ -2013,7 +1951,7 @@ var composeAsyncTransformer = (function (current) {
   }));
 });
 
-var _this$3 = window;
+var _this$3 = undefined;
 
 //     
 var composePrograms = (function () {
@@ -2070,7 +2008,7 @@ var composePrograms = (function () {
         }));
 
         return function requestNext() {
-          return _ref.apply(window, arguments);
+          return _ref.apply(this, arguments);
         };
       }();
       createPassThrought(program(init, composeAsyncTransformer(a, request)), composeAsyncTransformer(respond, b));
@@ -2160,11 +2098,11 @@ var createQueue = (function () {
               return _context.stop();
           }
         }
-      }, _callee, window);
+      }, _callee, this);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return [newGenerator(), push];
@@ -2212,17 +2150,17 @@ var createStack = (function () {
               return _context.stop();
           }
         }
-      }, _callee, window);
+      }, _callee, this);
     }));
 
     return function newGenerator() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return [newGenerator(), push];
 });
 
-var _this$4 = window;
+var _this$4 = undefined;
 
 //     
 var createProgramQueue = (function () {
@@ -2296,13 +2234,13 @@ var createProgramQueue = (function () {
     }));
 
     return function listen() {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   return [iterator, listen];
 });
 
-var _this$5 = window;
+var _this$5 = undefined;
 
 //     
 var index = (function () {
@@ -2414,11 +2352,11 @@ var index = (function () {
   }));
 
   return function (_x2, _x3) {
-    return _ref.apply(window, arguments);
+    return _ref.apply(this, arguments);
   };
 })();
 
-var _this$6 = window;
+var _this$6 = undefined;
 
 //     
 var _while = (function () {
@@ -2533,7 +2471,7 @@ var _while = (function () {
   }));
 
   return function (_x3) {
-    return _ref.apply(window, arguments);
+    return _ref.apply(this, arguments);
   };
 })();
 
@@ -2566,11 +2504,11 @@ var identity = (function () {
             return _context.stop();
         }
       }
-    }, _callee, window);
+    }, _callee, this);
   }));
 
   return function (_x, _x2) {
-    return _ref.apply(window, arguments);
+    return _ref.apply(this, arguments);
   };
 })();
 
@@ -2599,15 +2537,15 @@ var continuousOutput = (function () {
             return _context.stop();
         }
       }
-    }, _callee, window);
+    }, _callee, this);
   }));
 
   return function (_x) {
-    return _ref.apply(window, arguments);
+    return _ref.apply(this, arguments);
   };
 })();
 
-var _this$7 = window;
+var _this$7 = undefined;
 
 //     
 var tee = (function () {
@@ -2656,7 +2594,7 @@ var tee = (function () {
       }));
 
       return function request() {
-        return _ref4.apply(window, arguments);
+        return _ref4.apply(this, arguments);
       };
     }();
     ps.push({
@@ -2722,7 +2660,7 @@ var tee = (function () {
     }));
 
     return function (_x) {
-      return _ref.apply(window, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
 });
@@ -2833,9 +2771,9 @@ exports.AsyncArray = _class;
 exports.composeProgram = composePrograms;
 exports.map = map;
 exports.forEach = forEach;
-exports.filter = _filter;
-exports.reduce = _reduce;
-exports.reduceRight = _reduceRight;
+exports.filter = filter;
+exports.reduce = reduce;
+exports.reduceRight = reduceRight;
 exports.pause = pause;
 exports.composeAsyncTransformer = composeAsyncTransformer;
 exports.createQueue = createQueue;
@@ -2849,6 +2787,4 @@ exports.continuousOutput = continuousOutput;
 exports.renderer = createPassThrought;
 exports.tee = tee;
 
-return exports;
-
-}({}));
+}((this.window.AsyncEndpoint = this.window.AsyncEndpoint || {})));
