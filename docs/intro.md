@@ -87,18 +87,18 @@ render(program());
 
 ## <a name="introduction-asynchronous-input"></a> Asynchronous Input and Interactive Programs
 
-With a few small tricks, asynchronous generators can as fully interactive programs.
+With a few small tricks, asynchronous generators can function as fully interactive programs.
 
-We'll need a pair of functions: well call them "request" and "respond".
+We'll take advantage of the included AsyncArray class to derive a "request" and a "respond" function.
 
-When a program calles _request_, it will return a promise.
+When a program calls _request_, it will return a promise.
 This promise will then be fulfilled with the input of the next call to _respond_.
-While you can create these functions yourself,
-a method of creating them is included with the `async-endpoint` library.
 
 ```javascript
-import { channel } from "async-endpoint";
-const [request, respond] = channel();
+import { AsyncArray } from "async-endpoint";
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+  request = async ()=>(await channel.next()).value;
 ```
 
 By convention, we'll pass two arguments to our asynchronous generator function:
@@ -133,7 +133,7 @@ generic `renderer` from the `async-endpoit` library instead of writing our own t
 **Example 5**
 
 ```javascript
-import { channel, inputConsole, renderer } from "async-endpoint";
+import { AsyncArray, inputConsole, renderer } from "async-endpoint";
 
 const render = renderer();
 
@@ -142,10 +142,16 @@ const program = async function*(init, request) {
   yield `Hello ${await request()}`;
 };
 
-const [request, respond] = channel();
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+  request = async ()=>(await channel.next()).value;
 
 inputConsole(respond);
 
 render(program(undefined, request)); //the init object will be ignored
 //logs "
 ```
+
+# Related
+
+[Renderer for React](https://github.com/johnhenry/async-endpoint-renderer-react)

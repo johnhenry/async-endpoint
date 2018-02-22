@@ -1,5 +1,5 @@
 import tape from "tape";
-import { channel, identity } from "../mjs/";
+import { AsyncArray, identity } from "../mjs/";
 const DELAY = 4;
 
 //Handle Asynchronous Tests
@@ -12,7 +12,9 @@ tape.onFailure(() => {
 });
 
 tape("test identity", async ({ isEqual, end }) => {
-  const [request, respond] = channel();
+  const channel = new AsyncArray();
+  const respond = channel.push.bind(channel),
+    request = async () => (await channel.next()).value;
   const inputs = [1, 2, 3];
   const expected = [1, 2, 3];
   const program = identity(undefined, request);

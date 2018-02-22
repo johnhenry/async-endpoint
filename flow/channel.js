@@ -1,5 +1,8 @@
 //@flow
 export default (limit: number = Infinity) => {
+  console.warn(
+    `Deprecaration warning: "channel" to be replaced with "async-array"`
+  );
   let releaseRequest: Function = () => {};
   let releaseResponse: Function = () => {};
   //Calling request will return a new promise that's primed to resolve with the arguments of respond when next called
@@ -13,7 +16,7 @@ export default (limit: number = Infinity) => {
     const returnPromise = new Promise((outerResolve: Function): Function => {
       releaseRequest = (answer: any): Promise<*> => {
         const returnPromiseB = new Promise(innerResolve => {
-          let lastAnswer = answer;
+          lastAnswer = answer;
           outerResolve(answer);
           releaseResponse = () => innerResolve(debug);
           return releaseResponse;

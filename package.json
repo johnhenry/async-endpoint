@@ -19,6 +19,9 @@
   "author": "john@iamjohnhenry.com",
   "license": "MIT",
   "devDependencies": {
+
+  },
+  "dependencies": {
     "babel-core": "6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-plugin-async-import": "^1.0.0-alpha.1",
@@ -37,9 +40,7 @@
     "rollup": "0.55.5",
     "rollup-plugin-babel": "3.0.3",
     "rollup-plugin-node-resolve": "3.0.2",
-    "tape": "github:johnhenry/tape#v4.9.0"
-  },
-  "dependencies": {
+    "tape": "github:johnhenry/tape#v4.9.0",
     "babel-polyfill": "6.26.0",
     "rollup-plugin-node-builtins": "2.1.2",
     "rollup-plugin-prepack": "1.0.0",

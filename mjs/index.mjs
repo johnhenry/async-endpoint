@@ -1,18 +1,21 @@
 /* eslint-disable */
 /**
  * @typedef {Function} PairedRequest
+ * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that receives it's response from a paired PairedRespond function
  * @return {Promise<*>} response from respond reunction
  */
 
 /**
  * @typedef {Function} PairedRespond
+ * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that sends it's input to a paired PairedRequest function
  * @param {*} response - response for request function
  */
 
 /**
  * @typedef {Array} AsyncPair
+ * @deprecated [deprecated in favor of AsyncArray API]
  * @description a pair of paired PairedRequest and PairedRespond functions
  * @property {PairedRequest} 0 - request function
  * @property {PairedRespond} 1 - respond function
@@ -41,6 +44,7 @@
 
 /**
  * @typedef {Array} PushPair
+ * @deprecated [deprecated in favor of AsyncArray API]
  * @description an iterator and a paired function to add to it
  * @property {AsynchornousIterator} 0 - iterator
  * @property {Function} 1 - function used to add to iterator
@@ -48,6 +52,7 @@
 
 /**
  * @name channel
+ * @deprecated [deprecated in favor of AsyncArray API]
  * @description creates a pair of asynchronous functions used to transfer objects between programs
  * @returns {AsyncPair} array of paired functions
  * @example
@@ -57,12 +62,46 @@
  *      setTimeout(()=>{
  *          respond("hello");
  *      })
- *      console.log(await request());
+ *      console.log(await request());n a
  * }
  * main();
  * //logs "hello"
  */
 export { default as channel } from "./channel.mjs";
+
+/**
+ * @class AsyncArray
+ * @description An Asynchronous Array
+ * @extends Array
+ * @example
+ * import {AsyncArray} from "async-endpoint";
+ * const input = new AsyncArray();
+ * const main = async()=>{
+ *      setTimeout(()=>{
+ *          input.push("hello world");
+ *      })
+ *      const {value} = await input.next();
+ *      console.log(value);
+ * }
+ * main();
+ * //logs "hello world"
+ * @example
+ * import {AsyncArray} from "async-endpoint";
+ * const input = new AsyncArray();
+ * const main = async()=>{
+ *      setTimeout(()=>{
+ *          input.push("hello");
+ *          input.push("world");
+ *      })
+ *      for await(const value of input){
+ *        console.log(vaue);
+ *      }
+ * }
+ * main();
+ * //logs "hello"
+ * //logs "world"
+ */
+export { default as AsyncArray } from "./async-array.mjs";
 
 /**
  * @function composePrograms
@@ -167,6 +206,31 @@ export { default as filter } from "./array-like/filter.mjs";
  ...
  */
 export { default as reduce } from "./array-like/reduce.mjs";
+
+/**
+ * @function reduceRight
+ * @description creates an iterator whose values are reduced from another
+ * @param {AsynchornousIterator} iterator - iterator to be reduced
+ * @param {Function} reducer - reducing function
+ * @param {*} [inital] - initial object to reduce into
+ * @param {Function} [condition = (item, initial) => false]- boolean filtering function indicating when to start new reduction phase
+ * @param {Function} [resetInitial = ()=>initial]- method to reset/replace initial reduction object 
+ * @returns {AsynchornousIterator} reduced iterator
+ * @example
+ * import {reduce, continuousOutput} from "async-endpoint";
+ * let i = 0;
+ * const reduced = reduce(continuousOutput(()=>i++) , (previous, current)=>previous.push(current),[], (x)=!(x%5), ()=>([]));
+ * const main = async ()=>{
+ *  for await(item of reduced){
+ *      console.log(item);
+ *  }
+ * }
+ * main();
+ * logs "[0]"
+ * logs "[1, 2, 3, 4, 5]"
+ ...
+ */
+export { default as reduceRight } from "./array-like/reduce-right.mjs";
 
 /**
  * @function pause

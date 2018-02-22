@@ -113,18 +113,18 @@ render(program());
 
 ## <a name="introduction-asynchronous-input"></a> Asynchronous Input and Interactive Programs
 
-With a few small tricks, asynchronous generators can as fully interactive programs.
+With a few small tricks, asynchronous generators can function as fully interactive programs.
 
-We'll need a pair of functions: well call them "request" and "respond".
+We'll take advantage of the included AsyncArray class to derive a "request" and a "respond" function.
 
-When a program calles _request_, it will return a promise.
+When a program calls _request_, it will return a promise.
 This promise will then be fulfilled with the input of the next call to _respond_.
-While you can create these functions yourself,
-a method of creating them is included with the `async-endpoint` library.
 
 ```javascript
-import { channel } from "async-endpoint";
-const [request, respond] = channel();
+import { AsyncArray } from "async-endpoint";
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+  request = async ()=>(await channel.next()).value;
 ```
 
 By convention, we'll pass two arguments to our asynchronous generator function:
@@ -159,7 +159,7 @@ generic `renderer` from the `async-endpoit` library instead of writing our own t
 **Example 5**
 
 ```javascript
-import { channel, inputConsole, renderer } from "async-endpoint";
+import { AsyncArray, inputConsole, renderer } from "async-endpoint";
 
 const render = renderer();
 
@@ -168,13 +168,19 @@ const program = async function*(init, request) {
   yield `Hello ${await request()}`;
 };
 
-const [request, respond] = channel();
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+  request = async ()=>(await channel.next()).value;
 
 inputConsole(respond);
 
 render(program(undefined, request)); //the init object will be ignored
 //logs "
 ```
+
+# Related
+
+[Renderer for React](https://github.com/johnhenry/async-endpoint-renderer-react)
 # <a name="import"></a>Import
 
 There are a few ways to import this into your project.
@@ -268,10 +274,17 @@ import {map} from "async-endpoint/js/index.js";
 
 
 # <a name="application-programming-interface"></a> API
+## Classes
+
+<dl>
+<dt><a href="#AsyncArray">AsyncArray</a> ⇐ <code>Array</code></dt>
+<dd></dd>
+</dl>
+
 ## Members
 
 <dl>
-<dt><a href="#channel">channel</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></dt>
+<dt><del><a href="#channel">channel</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></del></dt>
 <dd><p>creates a pair of asynchronous functions used to transfer objects between programs</p>
 </dd>
 </dl>
@@ -290,6 +303,9 @@ import {map} from "async-endpoint/js/index.js";
 <dd><p>creates an iterator whose values are filtered from another</p>
 </dd>
 <dt><a href="#reduce">reduce(iterator, reducer, [inital], [condition], [resetInitial])</a> ⇒ <code>AsynchornousIterator</code></dt>
+<dd><p>creates an iterator whose values are reduced from another</p>
+</dd>
+<dt><a href="#reduceRight">reduceRight(iterator, reducer, [inital], [condition], [resetInitial])</a> ⇒ <code>AsynchornousIterator</code></dt>
 <dd><p>creates an iterator whose values are reduced from another</p>
 </dd>
 <dt><a href="#pause">pause(milliseconds, value)</a> ⇒ <code>Promise</code></dt>
@@ -346,13 +362,13 @@ It may be advantageous to use this along side a programQueue</p>
 ## Typedefs
 
 <dl>
-<dt><a href="#PairedRequest">PairedRequest</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
+<dt><del><a href="#PairedRequest">PairedRequest</a> ⇒ <code>Promise.&lt;*&gt;</code></del></dt>
 <dd><p>a function that receives it&#39;s response from a paired PairedRespond function</p>
 </dd>
-<dt><a href="#PairedRespond">PairedRespond</a> : <code>function</code></dt>
+<dt><del><a href="#PairedRespond">PairedRespond</a> : <code>function</code></del></dt>
 <dd><p>a function that sends it&#39;s input to a paired PairedRequest function</p>
 </dd>
-<dt><a href="#AsyncPair">AsyncPair</a> : <code>Array</code></dt>
+<dt><del><a href="#AsyncPair">AsyncPair</a> : <code>Array</code></del></dt>
 <dd><p>a pair of paired PairedRequest and PairedRespond functions</p>
 </dd>
 <dt><a href="#AsyncTransformer">AsyncTransformer</a> ⇒ <code>*</code></dt>
@@ -364,14 +380,57 @@ It may be advantageous to use this along side a programQueue</p>
 <dt><a href="#AsyncRenderFunction">AsyncRenderFunction</a> : <code>function</code></dt>
 <dd><p>a function that renders values from a given [Asynchronous] Iterator</p>
 </dd>
-<dt><a href="#PushPair">PushPair</a> : <code>Array</code></dt>
+<dt><del><a href="#PushPair">PushPair</a> : <code>Array</code></del></dt>
 <dd><p>an iterator and a paired function to add to it</p>
 </dd>
 </dl>
 
+<a name="AsyncArray"></a>
+
+## AsyncArray ⇐ <code>Array</code>
+**Kind**: global class  
+**Extends**: <code>Array</code>  
+<a name="new_AsyncArray_new"></a>
+
+### new AsyncArray()
+An Asynchronous Array
+
+**Example**  
+```js
+import {AsyncArray} from "async-endpoint";
+const input = new AsyncArray();
+const main = async()=>{
+     setTimeout(()=>{
+         input.push("hello world");
+     })
+     const {value} = await input.next();
+     console.log(value);
+}
+main();
+//logs "hello world"
+```
+**Example**  
+```js
+import {AsyncArray} from "async-endpoint";
+const input = new AsyncArray();
+const main = async()=>{
+     setTimeout(()=>{
+         input.push("hello");
+         input.push("world");
+     })
+     for await(const value of input){
+       console.log(vaue);
+     }
+}
+main();
+//logs "hello"
+//logs "world"
+```
 <a name="channel"></a>
 
-## channel ⇒ [<code>AsyncPair</code>](#AsyncPair)
+## ~~channel ⇒ [<code>AsyncPair</code>](#AsyncPair)~~
+***Deprecated***
+
 creates a pair of asynchronous functions used to transfer objects between programs
 
 **Kind**: global variable  
@@ -384,7 +443,7 @@ const main = async()=>{
      setTimeout(()=>{
          respond("hello");
      })
-     console.log(await request());
+     console.log(await request());n a
 }
 main();
 //logs "hello"
@@ -489,6 +548,37 @@ logs "5"
 <a name="reduce"></a>
 
 ## reduce(iterator, reducer, [inital], [condition], [resetInitial]) ⇒ <code>AsynchornousIterator</code>
+creates an iterator whose values are reduced from another
+
+**Kind**: global function  
+**Returns**: <code>AsynchornousIterator</code> - reduced iterator  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| iterator | <code>AsynchornousIterator</code> |  | iterator to be reduced |
+| reducer | <code>function</code> |  | reducing function |
+| [inital] | <code>\*</code> |  | initial object to reduce into |
+| [condition] | <code>function</code> | <code>(item, initial) &#x3D;&gt; false</code> | boolean filtering function indicating when to start new reduction phase |
+| [resetInitial] | <code>function</code> | <code>()&#x3D;&gt;initial</code> | method to reset/replace initial reduction object |
+
+**Example**  
+```js
+import {reduce, continuousOutput} from "async-endpoint";
+let i = 0;
+const reduced = reduce(continuousOutput(()=>i++) , (previous, current)=>previous.push(current),[], (x)=!(x%5), ()=>([]));
+const main = async ()=>{
+ for await(item of reduced){
+     console.log(item);
+ }
+}
+main();
+logs "[0]"
+logs "[1, 2, 3, 4, 5]"
+ ...
+```
+<a name="reduceRight"></a>
+
+## reduceRight(iterator, reducer, [inital], [condition], [resetInitial]) ⇒ <code>AsynchornousIterator</code>
 creates an iterator whose values are reduced from another
 
 **Kind**: global function  
@@ -816,14 +906,18 @@ inputPipe(respond);
 ```
 <a name="PairedRequest"></a>
 
-## PairedRequest ⇒ <code>Promise.&lt;\*&gt;</code>
+## ~~PairedRequest ⇒ <code>Promise.&lt;\*&gt;</code>~~
+***Deprecated***
+
 a function that receives it's response from a paired PairedRespond function
 
 **Kind**: global typedef  
 **Returns**: <code>Promise.&lt;\*&gt;</code> - response from respond reunction  
 <a name="PairedRespond"></a>
 
-## PairedRespond : <code>function</code>
+## ~~PairedRespond : <code>function</code>~~
+***Deprecated***
+
 a function that sends it's input to a paired PairedRequest function
 
 **Kind**: global typedef  
@@ -834,7 +928,9 @@ a function that sends it's input to a paired PairedRequest function
 
 <a name="AsyncPair"></a>
 
-## AsyncPair : <code>Array</code>
+## ~~AsyncPair : <code>Array</code>~~
+***Deprecated***
+
 a pair of paired PairedRequest and PairedRespond functions
 
 **Kind**: global typedef  
@@ -883,7 +979,9 @@ a function that renders values from a given [Asynchronous] Iterator
 
 <a name="PushPair"></a>
 
-## PushPair : <code>Array</code>
+## ~~PushPair : <code>Array</code>~~
+***Deprecated***
+
 an iterator and a paired function to add to it
 
 **Kind**: global typedef  
