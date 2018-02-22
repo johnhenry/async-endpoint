@@ -6,11 +6,21 @@
   "main": "common.js",
   "scripts": {
     "test": "node --experimental-modules --harmony_dynamic_import --harmony_async_iteration tests/index.mjs",
-    "docs": "jsdoc2md js/index.js > docs/api.md && cat docs/preamble.md docs/intro.md docs/import.md docs/api.md > readme.md",
-    "type": "flow-remove-types --out-dir js/ flow/ --sourcemaps",
+    "extract-api-and-combine": "jsdoc2md js/index.js > docs/api.md && cat docs/preamble.md docs/intro.md docs/import.md docs/api.md > readme.md",
+    "remove-types-and-copy": "flow-remove-types --out-dir js/ flow/ --sourcemaps",
     "flow": "flow",
     "fix": "echo \"linting temporarliy disabled\" && : ",
-    "rollup": "rollup -c ./rollup.config-browser.js && rollup -c ./rollup.config-common.js"
+    "export-common": "rollup -c ./export-config/rollup.common.js",
+    "export-browser": "rollup -c ./export-config/rollup.browser.js",
+    "lint": "./scripts/lint.sh",
+    "type": "./scripts/type.sh",
+    "generate": "./scripts/generate.sh",
+    "docs": "./scripts/docs.sh",
+    "unit": "./scripts/unit.sh",
+    "cleanup": "./scripts/cleanup.sh",
+    "finalize": "./scripts/finalize.sh",
+    "summary": "./scripts/summary.sh",
+    "publish": "./scripts/publish.sh"
   },
   "repository": {
     "type": "git",
@@ -18,9 +28,7 @@
   },
   "author": "john@iamjohnhenry.com",
   "license": "MIT",
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "dependencies": {
     "babel-core": "6.26.0",
     "babel-eslint": "^8.0.2",
@@ -28,6 +36,7 @@
     "babel-plugin-external-helpers": "6.22.0",
     "babel-plugin-transform-async-generator-functions": "6.24.1",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
@@ -39,12 +48,12 @@
     "jsdoc-to-markdown": "^3.0.1",
     "rollup": "0.55.5",
     "rollup-plugin-babel": "3.0.3",
-    "rollup-plugin-node-resolve": "3.0.2",
-    "tape": "github:johnhenry/tape#v4.9.0",
-    "babel-polyfill": "6.26.0",
+    "rollup-plugin-commonjs": "8.3.0",
     "rollup-plugin-node-builtins": "2.1.2",
+    "rollup-plugin-node-resolve": "3.0.2",
     "rollup-plugin-prepack": "1.0.0",
     "rollup-plugin-regenerator": "0.5.4",
-    "rollup-plugin-replace": "2.0.0"
+    "rollup-plugin-replace": "2.0.0",
+    "tape": "github:johnhenry/tape"
   }
 }

@@ -1285,6 +1285,8 @@ var composeAsyncTransformer = (function (current) {
   }));
 });
 
+var _this$3 = undefined;
+
 //     
 var composePrograms = (function () {
   for (var _len = arguments.length, programs = Array(_len), _key = 0; _key < _len; _key++) {
@@ -1300,6 +1302,53 @@ var composePrograms = (function () {
         lastB = _programs$pop2[3];
 
     var request = initialRequest;
+
+    var _loop = function _loop(output) {
+      var program = void 0,
+          init = void 0,
+          a = void 0,
+          b = void 0;
+      if (typeof output === "function") {
+        program = output;
+        a = b = function b($) {
+          return $;
+        };
+      } else {
+        program = output[0];
+        init = output[1];
+        a = output[2];
+        b = output[3];
+      }
+      var channel = new _class();
+      var respond = channel.push.bind(channel),
+          requestNext = function () {
+        var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return channel.next();
+
+                case 2:
+                  return _context.abrupt("return", _context.sent.value);
+
+                case 3:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, _this$3);
+        }));
+
+        return function requestNext() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+      createPassThrought(program(init, composeAsyncTransformer(a, request)), composeAsyncTransformer(respond, b));
+      request = requestNext;
+    };
+
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -1308,29 +1357,7 @@ var composePrograms = (function () {
       for (var _iterator = programs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var output = _step.value;
 
-        var program = void 0,
-            init = void 0,
-            a = void 0,
-            b = void 0;
-        if (typeof output === "function") {
-          program = output;
-          a = b = function b($) {
-            return $;
-          };
-        } else {
-          program = output[0];
-          init = output[1];
-          a = output[2];
-          b = output[3];
-        }
-
-        var _channel = channel(),
-            _channel2 = slicedToArray(_channel, 2),
-            requestNext = _channel2[0],
-            respond = _channel2[1];
-
-        createPassThrought(program(init, composeAsyncTransformer(a, request)), composeAsyncTransformer(respond, b));
-        request = requestNext;
+        _loop(output);
       }
       //handle last
     } catch (err) {
@@ -1467,7 +1494,7 @@ var createStack = (function () {
   return [newGenerator(), push];
 });
 
-var _this$3 = undefined;
+var _this$4 = undefined;
 
 //     
 var createProgramQueue = (function () {
@@ -1537,7 +1564,7 @@ var createProgramQueue = (function () {
               return _context.stop();
           }
         }
-      }, _callee, _this$3, [[3, 7, 11, 19], [12,, 14, 18]]);
+      }, _callee, _this$4, [[3, 7, 11, 19], [12,, 14, 18]]);
     }));
 
     return function listen() {
@@ -1547,7 +1574,7 @@ var createProgramQueue = (function () {
   return [iterator, listen];
 });
 
-var _this$4 = undefined;
+var _this$5 = undefined;
 
 //     
 var index = (function () {
@@ -1655,7 +1682,7 @@ var index = (function () {
             return _context.stop();
         }
       }
-    }, _callee, _this$4, [[4, 27, 31, 41], [32,, 36, 40]]);
+    }, _callee, _this$5, [[4, 27, 31, 41], [32,, 36, 40]]);
   }));
 
   return function (_x2, _x3) {
@@ -1663,7 +1690,7 @@ var index = (function () {
   };
 })();
 
-var _this$5 = undefined;
+var _this$6 = undefined;
 
 //     
 var _while = (function () {
@@ -1774,7 +1801,7 @@ var _while = (function () {
             return _context.stop();
         }
       }
-    }, _callee, _this$5, [[4, 27, 31, 41], [32,, 36, 40]]);
+    }, _callee, _this$6, [[4, 27, 31, 41], [32,, 36, 40]]);
   }));
 
   return function (_x3) {
@@ -1852,7 +1879,7 @@ var continuousOutput = (function () {
   };
 })();
 
-var _this$6 = undefined;
+var _this$7 = undefined;
 
 //     
 var tee = (function () {
@@ -1861,6 +1888,57 @@ var tee = (function () {
   }
 
   var ps = [];
+
+  var _loop = function _loop(output) {
+    var program = void 0,
+        init = void 0,
+        a = void 0,
+        b = void 0;
+    if (typeof output === "function") {
+      program = output;
+      a = b = function b($) {
+        return $;
+      };
+    } else {
+      program = output[0];
+      init = output[1];
+      a = output[2];
+      b = output[3];
+    }
+    var channel = new _class();
+    var respond = channel.push.bind(channel),
+        request = function () {
+      var _ref4 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return channel.next();
+
+              case 2:
+                return _context2.abrupt("return", _context2.sent.value);
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this$7);
+      }));
+
+      return function request() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+    ps.push({
+      init: init,
+      program: program,
+      request: composeAsyncTransformer(b, request),
+      respond: composeAsyncTransformer(respond, a)
+    });
+  };
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -1869,33 +1947,7 @@ var tee = (function () {
     for (var _iterator = programs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var output = _step.value;
 
-      var program = void 0,
-          init = void 0,
-          a = void 0,
-          b = void 0;
-      if (typeof output === "function") {
-        program = output;
-        a = b = function b($) {
-          return $;
-        };
-      } else {
-        program = output[0];
-        init = output[1];
-        a = output[2];
-        b = output[3];
-      }
-
-      var _channel = channel(),
-          _channel2 = slicedToArray(_channel, 2),
-          request = _channel2[0],
-          respond = _channel2[1];
-
-      ps.push({
-        init: init,
-        program: program,
-        request: composeAsyncTransformer(b, request),
-        respond: composeAsyncTransformer(respond, a)
-      });
+      _loop(output);
     }
   } catch (err) {
     _didIteratorError = true;
@@ -1938,7 +1990,7 @@ var tee = (function () {
               return _context.stop();
           }
         }
-      }, _callee, _this$6);
+      }, _callee, _this$7);
     }));
 
     return function (_x) {

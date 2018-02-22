@@ -1,5 +1,5 @@
 //     
-import channel from "./channel.js";
+import AsyncArray from "./async-array.js";
 import map from "./array-like/map.js";
 import passthrough from "./renderer/index.js";
 import composeAsyncTransformer from "./compose-async-transformers.js";
@@ -22,7 +22,9 @@ export default (...programs            ) => (initialRequest          ) => {
       a = output[2];
       b = output[3];
     }
-    const [requestNext, respond] = channel();
+    const channel = new AsyncArray();
+    const respond = channel.push.bind(channel),
+      requestNext = async () => (await channel.next()).value;
     passthrough(
       program(init, composeAsyncTransformer(a, request)),
       composeAsyncTransformer(respond, b)

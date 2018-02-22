@@ -1,5 +1,5 @@
 //     
-import channel from "../channel.mjs";
+import AsyncArray from "../async-array.mjs";
 import createPassThrought from "./index.mjs";
 import composeAsyncTransformer from "../compose-async-transformers.mjs";
 export default (...programs                 ) => {
@@ -15,7 +15,9 @@ export default (...programs                 ) => {
       a = output[2];
       b = output[3];
     }
-    const [request, respond] = channel();
+    const channel = new AsyncArray();
+    const respond = channel.push.bind(channel),
+      request = async () => (await channel.next()).value;
     ps.push({
       init,
       program,

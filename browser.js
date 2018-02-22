@@ -726,7 +726,8 @@
   (function() { return this })() || Function("return this")()
 );
 
-var AsyncEndpoint = (function (exports) {
+this.window = this.window || {};
+this.window.AsyncEndpoint = (function (exports) {
 'use strict';
 
 //     
@@ -1172,17 +1173,17 @@ var map = (function (iterator, mapper) {
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 23, 27, 37], [28,, 32, 36]]);
+      }, _callee, window, [[3, 23, 27, 37], [28,, 32, 36]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return newGenerator();
 });
 
-var _this = undefined;
+var _this = window;
 
 //     
 var forEach = (function () {
@@ -1273,7 +1274,7 @@ var forEach = (function () {
   }));
 
   return function (_x, _x2) {
-    return _ref.apply(this, arguments);
+    return _ref.apply(window, arguments);
   };
 })();
 
@@ -1372,11 +1373,11 @@ var _filter = (function (iterator, filterer) {
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 24, 28, 38], [29,, 33, 37]]);
+      }, _callee, window, [[3, 24, 28, 38], [29,, 33, 37]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return newGenerator();
@@ -1489,11 +1490,11 @@ var _reduce = (function (iterator, reducer, initial) {
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 26, 30, 40], [31,, 35, 39]]);
+      }, _callee, window, [[3, 26, 30, 40], [31,, 35, 39]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return newGenerator();
@@ -1606,11 +1607,11 @@ var _reduceRight = (function (iterator, reducer, initial) {
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 26, 30, 40], [31,, 35, 39]]);
+      }, _callee, window, [[3, 26, 30, 40], [31,, 35, 39]]);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return newGenerator();
@@ -1623,49 +1624,49 @@ var _class = function (_Array) {
   function _class() {
     var _ref;
 
-    classCallCheck(this, _class);
+    classCallCheck(window, _class);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
+    return possibleConstructorReturn(window, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [window].concat(args)));
   }
 
   createClass(_class, [{
     key: "valueOf",
     value: function valueOf() {
-      return this._latest;
+      return window._latest;
     }
   }, {
     key: "push",
     value: function push(value) {
-      if (this._resumeIteration) {
-        this._resumeIteration(value);
+      if (window._resumeIteration) {
+        window._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "push", this).call(this, value);
+      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "push", window).call(window, value);
     }
   }, {
     key: "unshift",
     value: function unshift(value) {
-      if (this._resumeIteration) {
-        this._resumeIteration(value);
+      if (window._resumeIteration) {
+        window._resumeIteration(value);
         return 1;
       }
-      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "unshift", this).call(this, value);
+      return get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "unshift", window).call(window, value);
     }
   }, {
     key: "unfreeze",
     value: function unfreeze() {
-      delete this._frozen;
+      delete window._frozen;
     }
   }, {
     key: "freeze",
     value: function freeze() {
-      this._frozen === true;
-      if (this._resumeIteration) {
-        this._resumeIteration(this._latest);
+      window._frozen === true;
+      if (window._resumeIteration) {
+        window._resumeIteration(window._latest);
       }
     }
   }, {
@@ -1673,36 +1674,36 @@ var _class = function (_Array) {
     value: function clear() {
       var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Infinity;
 
-      while (this.length && count--) {
-        get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "shift", this).call(this);
+      while (window.length && count--) {
+        get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "shift", window).call(window);
       }
     }
   }, {
     key: "cancel",
     value: function cancel() {
-      this._canceled = true;
-      this.clear();
-      if (this._endIteration) {
-        this._endIteration();
+      window._canceled = true;
+      window.clear();
+      if (window._endIteration) {
+        window._endIteration();
       }
     }
   }, {
     key: "filter",
     value: function filter(condition) {
       // $FlowFixMe
-      return _filter(this, condition);
+      return _filter(window, condition);
     }
   }, {
     key: "map",
     value: function map$$1(mapper) {
       // $FlowFixMe
-      return map(this, mapper);
+      return map(window, mapper);
     }
   }, {
     key: "forEach",
     value: function forEach$$1(callback) {
       // $FlowFixMe
-      return map(this, callback);
+      return map(window, callback);
     }
   }, {
     key: "reduce",
@@ -1712,7 +1713,7 @@ var _class = function (_Array) {
       }
 
       // $FlowFixMe
-      return _reduce.apply(undefined, [this].concat(args));
+      return _reduce.apply(undefined, [window].concat(args));
     }
   }, {
     key: "reduceRight",
@@ -1722,19 +1723,19 @@ var _class = function (_Array) {
       }
 
       // $FlowFixMe
-      return _reduceRight.apply(undefined, [this].concat(args));
+      return _reduceRight.apply(undefined, [window].concat(args));
     }
   }, {
     key: "next",
     value: function () {
       var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
+        var _this2 = window;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this._canceled === true)) {
+                if (!(window._canceled === true)) {
                   _context.next = 2;
                   break;
                 }
@@ -1742,21 +1743,21 @@ var _class = function (_Array) {
                 return _context.abrupt("return", { done: true });
 
               case 2:
-                if (!(this._frozen === true)) {
+                if (!(window._frozen === true)) {
                   _context.next = 4;
                   break;
                 }
 
-                return _context.abrupt("return", { value: this._latest, done: true });
+                return _context.abrupt("return", { value: window._latest, done: true });
 
               case 4:
-                if (!this.length) {
+                if (!window.length) {
                   _context.next = 7;
                   break;
                 }
 
-                this._latest = this.shift();
-                return _context.abrupt("return", { value: this._latest });
+                window._latest = window.shift();
+                return _context.abrupt("return", { value: window._latest });
 
               case 7:
                 return _context.abrupt("return", new Promise(function (resolve) {
@@ -1778,11 +1779,11 @@ var _class = function (_Array) {
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, window);
       }));
 
       function next() {
-        return _ref2.apply(this, arguments);
+        return _ref2.apply(window, arguments);
       }
 
       return next;
@@ -1792,22 +1793,22 @@ var _class = function (_Array) {
   }, {
     key: Symbol.asyncIterator,
     value: function value() {
-      return this;
+      return window;
     }
   }, {
     key: "value",
     set: function set$$1(val) {
-      this._latest = val;
-      this.freeze();
+      window._latest = val;
+      window.freeze();
     },
     get: function get$$1() {
-      return this._latest;
+      return window._latest;
     }
   }]);
   return _class;
 }(Array);
 
-var _this$1 = undefined;
+var _this$1 = window;
 
 //     
 /*eslint no-console: "off"*/
@@ -1978,7 +1979,7 @@ var createPassThrought = (function () {
   };
 });
 
-var _this$2 = undefined;
+var _this$2 = window;
 
 //     
 var composeAsyncTransformer = (function (current) {
@@ -2012,6 +2013,8 @@ var composeAsyncTransformer = (function (current) {
   }));
 });
 
+var _this$3 = window;
+
 //     
 var composePrograms = (function () {
   for (var _len = arguments.length, programs = Array(_len), _key = 0; _key < _len; _key++) {
@@ -2027,6 +2030,53 @@ var composePrograms = (function () {
         lastB = _programs$pop2[3];
 
     var request = initialRequest;
+
+    var _loop = function _loop(output) {
+      var program = void 0,
+          init = void 0,
+          a = void 0,
+          b = void 0;
+      if (typeof output === "function") {
+        program = output;
+        a = b = function b($) {
+          return $;
+        };
+      } else {
+        program = output[0];
+        init = output[1];
+        a = output[2];
+        b = output[3];
+      }
+      var channel = new _class();
+      var respond = channel.push.bind(channel),
+          requestNext = function () {
+        var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return channel.next();
+
+                case 2:
+                  return _context.abrupt("return", _context.sent.value);
+
+                case 3:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, _this$3);
+        }));
+
+        return function requestNext() {
+          return _ref.apply(window, arguments);
+        };
+      }();
+      createPassThrought(program(init, composeAsyncTransformer(a, request)), composeAsyncTransformer(respond, b));
+      request = requestNext;
+    };
+
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -2035,29 +2085,7 @@ var composePrograms = (function () {
       for (var _iterator = programs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var output = _step.value;
 
-        var program = void 0,
-            init = void 0,
-            a = void 0,
-            b = void 0;
-        if (typeof output === "function") {
-          program = output;
-          a = b = function b($) {
-            return $;
-          };
-        } else {
-          program = output[0];
-          init = output[1];
-          a = output[2];
-          b = output[3];
-        }
-
-        var _channel = channel(),
-            _channel2 = slicedToArray(_channel, 2),
-            requestNext = _channel2[0],
-            respond = _channel2[1];
-
-        createPassThrought(program(init, composeAsyncTransformer(a, request)), composeAsyncTransformer(respond, b));
-        request = requestNext;
+        _loop(output);
       }
       //handle last
     } catch (err) {
@@ -2132,11 +2160,11 @@ var createQueue = (function () {
               return _context.stop();
           }
         }
-      }, _callee, this);
+      }, _callee, window);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return [newGenerator(), push];
@@ -2184,17 +2212,17 @@ var createStack = (function () {
               return _context.stop();
           }
         }
-      }, _callee, this);
+      }, _callee, window);
     }));
 
     return function newGenerator() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return [newGenerator(), push];
 });
 
-var _this$3 = undefined;
+var _this$4 = window;
 
 //     
 var createProgramQueue = (function () {
@@ -2264,17 +2292,17 @@ var createProgramQueue = (function () {
               return _context.stop();
           }
         }
-      }, _callee, _this$3, [[3, 7, 11, 19], [12,, 14, 18]]);
+      }, _callee, _this$4, [[3, 7, 11, 19], [12,, 14, 18]]);
     }));
 
     return function listen() {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
   return [iterator, listen];
 });
 
-var _this$4 = undefined;
+var _this$5 = window;
 
 //     
 var index = (function () {
@@ -2382,15 +2410,15 @@ var index = (function () {
             return _context.stop();
         }
       }
-    }, _callee, _this$4, [[4, 27, 31, 41], [32,, 36, 40]]);
+    }, _callee, _this$5, [[4, 27, 31, 41], [32,, 36, 40]]);
   }));
 
   return function (_x2, _x3) {
-    return _ref.apply(this, arguments);
+    return _ref.apply(window, arguments);
   };
 })();
 
-var _this$5 = undefined;
+var _this$6 = window;
 
 //     
 var _while = (function () {
@@ -2501,11 +2529,11 @@ var _while = (function () {
             return _context.stop();
         }
       }
-    }, _callee, _this$5, [[4, 27, 31, 41], [32,, 36, 40]]);
+    }, _callee, _this$6, [[4, 27, 31, 41], [32,, 36, 40]]);
   }));
 
   return function (_x3) {
-    return _ref.apply(this, arguments);
+    return _ref.apply(window, arguments);
   };
 })();
 
@@ -2538,11 +2566,11 @@ var identity = (function () {
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee, window);
   }));
 
   return function (_x, _x2) {
-    return _ref.apply(this, arguments);
+    return _ref.apply(window, arguments);
   };
 })();
 
@@ -2571,15 +2599,15 @@ var continuousOutput = (function () {
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee, window);
   }));
 
   return function (_x) {
-    return _ref.apply(this, arguments);
+    return _ref.apply(window, arguments);
   };
 })();
 
-var _this$6 = undefined;
+var _this$7 = window;
 
 //     
 var tee = (function () {
@@ -2588,6 +2616,57 @@ var tee = (function () {
   }
 
   var ps = [];
+
+  var _loop = function _loop(output) {
+    var program = void 0,
+        init = void 0,
+        a = void 0,
+        b = void 0;
+    if (typeof output === "function") {
+      program = output;
+      a = b = function b($) {
+        return $;
+      };
+    } else {
+      program = output[0];
+      init = output[1];
+      a = output[2];
+      b = output[3];
+    }
+    var channel = new _class();
+    var respond = channel.push.bind(channel),
+        request = function () {
+      var _ref4 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return channel.next();
+
+              case 2:
+                return _context2.abrupt("return", _context2.sent.value);
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this$7);
+      }));
+
+      return function request() {
+        return _ref4.apply(window, arguments);
+      };
+    }();
+    ps.push({
+      init: init,
+      program: program,
+      request: composeAsyncTransformer(b, request),
+      respond: composeAsyncTransformer(respond, a)
+    });
+  };
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -2596,33 +2675,7 @@ var tee = (function () {
     for (var _iterator = programs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var output = _step.value;
 
-      var program = void 0,
-          init = void 0,
-          a = void 0,
-          b = void 0;
-      if (typeof output === "function") {
-        program = output;
-        a = b = function b($) {
-          return $;
-        };
-      } else {
-        program = output[0];
-        init = output[1];
-        a = output[2];
-        b = output[3];
-      }
-
-      var _channel = channel(),
-          _channel2 = slicedToArray(_channel, 2),
-          request = _channel2[0],
-          respond = _channel2[1];
-
-      ps.push({
-        init: init,
-        program: program,
-        request: composeAsyncTransformer(b, request),
-        respond: composeAsyncTransformer(respond, a)
-      });
+      _loop(output);
     }
   } catch (err) {
     _didIteratorError = true;
@@ -2665,11 +2718,11 @@ var tee = (function () {
               return _context.stop();
           }
         }
-      }, _callee, _this$6);
+      }, _callee, _this$7);
     }));
 
     return function (_x) {
-      return _ref.apply(this, arguments);
+      return _ref.apply(window, arguments);
     };
   }();
 });

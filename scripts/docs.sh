@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "\nCreating documentation...\n"
-npm run docs
+npm run extract-api-and-combine
 git reset -- docs/api.md
 rm docs/api.md
 git add readme.md

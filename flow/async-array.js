@@ -78,7 +78,7 @@ export default class extends Array<any> {
     // $FlowFixMe
     return reduceRight(this, ...args);
   }
-  async next() {
+  async next(): Promise<*> {
     if (this._canceled === true) {
       return { done: true };
     }
