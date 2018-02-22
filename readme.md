@@ -281,14 +281,6 @@ import {map} from "async-endpoint/js/index.js";
 <dd></dd>
 </dl>
 
-## Members
-
-<dl>
-<dt><del><a href="#channel">channel</a> ⇒ <code><a href="#AsyncPair">AsyncPair</a></code></del></dt>
-<dd><p>creates a pair of asynchronous functions used to transfer objects between programs</p>
-</dd>
-</dl>
-
 ## Functions
 
 <dl>
@@ -362,14 +354,11 @@ It may be advantageous to use this along side a programQueue</p>
 ## Typedefs
 
 <dl>
-<dt><del><a href="#PairedRequest">PairedRequest</a> ⇒ <code>Promise.&lt;*&gt;</code></del></dt>
+<dt><a href="#PairedRequest">PairedRequest</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
 <dd><p>a function that receives it&#39;s response from a paired PairedRespond function</p>
 </dd>
-<dt><del><a href="#PairedRespond">PairedRespond</a> : <code>function</code></del></dt>
+<dt><a href="#PairedRespond">PairedRespond</a> : <code>function</code></dt>
 <dd><p>a function that sends it&#39;s input to a paired PairedRequest function</p>
-</dd>
-<dt><del><a href="#AsyncPair">AsyncPair</a> : <code>Array</code></del></dt>
-<dd><p>a pair of paired PairedRequest and PairedRespond functions</p>
 </dd>
 <dt><a href="#AsyncTransformer">AsyncTransformer</a> ⇒ <code>*</code></dt>
 <dd><p>stateless asynchronous function that transforms input without side effects</p>
@@ -426,28 +415,6 @@ main();
 //logs "hello"
 //logs "world"
 ```
-<a name="channel"></a>
-
-## ~~channel ⇒ [<code>AsyncPair</code>](#AsyncPair)~~
-***Deprecated***
-
-creates a pair of asynchronous functions used to transfer objects between programs
-
-**Kind**: global variable  
-**Returns**: [<code>AsyncPair</code>](#AsyncPair) - array of paired functions  
-**Example**  
-```js
-import {channel} from "async-endpoint";
-const [request, respond] = channel();
-const main = async()=>{
-     setTimeout(()=>{
-         respond("hello");
-     })
-     console.log(await request());n a
-}
-main();
-//logs "hello"
-```
 <a name="composePrograms"></a>
 
 ## composePrograms(request, ...programs) ⇒ <code>AsynchornousIterator</code>
@@ -458,14 +425,16 @@ composes programs sequentially with a single input
 
 | Param | Type | Description |
 | --- | --- | --- |
-| request | [<code>PairedRequest</code>](#PairedRequest) | request function for input |
+| request | <code>function</code> | request function for input |
 | ...programs | [<code>Program</code>](#Program) | programs to be composed sequentially |
 
 **Example**  
 ```js
-import {composePrograms} from "async-endpoint";
+import {composePrograms, AsyncArray} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
-const [request, respond] = channel();
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+request = async () => (await channel.next()).value;
 const program = composePrograms(request, program1, program2, program3);
 window.respond = respond;
 ```
@@ -669,9 +638,9 @@ create a queue iterator
 
 **Example**  
 ```js
-import {createQueue, channel, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createQueue, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
-const [queue, push] createQueue();
+const [queue, push] = createQueue();
 const passthrough = createPassThrough(push);
 passthrough(porgram1(), program2(), program3());
 const render = renderer();
@@ -691,9 +660,9 @@ create a stack iterator
 
 **Example**  
 ```js
-import {createStack, channel, renderer, renderer as createPassThrough} from "async-endpoint";
+import {createStack, renderer, renderer as createPassThrough} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
-const [stack, push] createStack();
+const [stack, push] = createStack();
 const passthrough = createPassThrough(push);
 passthrough(porgram1(), program2(), program3());
 const render = renderer();
@@ -709,7 +678,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramQueue, channel, renderer} from "async-endpoint";
+import {createProgramQueue, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [queue, push] = createProgramQueue();
 push(porgram1(), program2(), program3());
@@ -726,7 +695,7 @@ Like "queue", but accepts program as input
 **Returns**: [<code>PushPair</code>](#PushPair) - iterator and push function  
 **Example**  
 ```js
-import {createProgramStack, channel, renderer} from "async-endpoint";
+import {createProgramStack, renderer} from "async-endpoint";
 import porgram1, program1, program3 from "....js";
 const [stack, push] = createProgramStack();
 push(porgram1(), program2(), program3());
@@ -790,8 +759,10 @@ program that outputs what ever is put throught
 
 **Example**  
 ```js
-import {identity, renderer channel} from "async-endpoint";
-const [request, respond] = channel();
+import {identity, renderer, AsyncArray} from "async-endpoint";
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+request = async () => (await channel.next()).value;
 identity(undefined, request);
 window.respond = respond
 ```
@@ -877,9 +848,11 @@ send input typed into console to a PairedRespond function
 
 **Example**  
 ```js
-import {identity, channel, renderer} from "async-endpoint";
+import {identity, AsyncArray, renderer} from "async-endpoint";
 import inputConsole from "async-endpoint/input/console";
-const [request, respond] = channel();
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+request = async () => (await channel.next()).value;
 const render = renderer();
 render(identity(undefined, request))
 inputConsole(respond);
@@ -897,27 +870,25 @@ send input piped to console to a PairedRespond function
 
 **Example**  
 ```js
-import {identity, channel, renderer} from "async-endpoint";
+import {identity, renderer, AsyncArray} from "async-endpoint";
 import inputPipe from "async-endpoint/input/pipe";
-const [request, respond] = channel();
+const channel = new AsyncArray();
+const respond = channel.push.bind(channel),
+request = async () => (await channel.next()).value;
 const render = renderer();
 render(identity(undefined, request))
 inputPipe(respond);
 ```
 <a name="PairedRequest"></a>
 
-## ~~PairedRequest ⇒ <code>Promise.&lt;\*&gt;</code>~~
-***Deprecated***
-
+## PairedRequest ⇒ <code>Promise.&lt;\*&gt;</code>
 a function that receives it's response from a paired PairedRespond function
 
 **Kind**: global typedef  
 **Returns**: <code>Promise.&lt;\*&gt;</code> - response from respond reunction  
 <a name="PairedRespond"></a>
 
-## ~~PairedRespond : <code>function</code>~~
-***Deprecated***
-
+## PairedRespond : <code>function</code>
 a function that sends it's input to a paired PairedRequest function
 
 **Kind**: global typedef  
@@ -925,21 +896,6 @@ a function that sends it's input to a paired PairedRequest function
 | Param | Type | Description |
 | --- | --- | --- |
 | response | <code>\*</code> | response for request function |
-
-<a name="AsyncPair"></a>
-
-## ~~AsyncPair : <code>Array</code>~~
-***Deprecated***
-
-a pair of paired PairedRequest and PairedRespond functions
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| 0 | [<code>PairedRequest</code>](#PairedRequest) | request function |
-| 1 | [<code>PairedRespond</code>](#PairedRespond) | respond function |
 
 <a name="AsyncTransformer"></a>
 

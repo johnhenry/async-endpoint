@@ -1,24 +1,14 @@
 /* eslint-disable */
 /**
  * @typedef {Function} PairedRequest
- * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that receives it's response from a paired PairedRespond function
  * @return {Promise<*>} response from respond reunction
  */
 
 /**
  * @typedef {Function} PairedRespond
- * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that sends it's input to a paired PairedRequest function
  * @param {*} response - response for request function
- */
-
-/**
- * @typedef {Array} AsyncPair
- * @deprecated [deprecated in favor of AsyncArray API]
- * @description a pair of paired PairedRequest and PairedRespond functions
- * @property {PairedRequest} 0 - request function
- * @property {PairedRespond} 1 - respond function
  */
 
 /**
@@ -49,25 +39,6 @@
  * @property {AsynchornousIterator} 0 - iterator
  * @property {Function} 1 - function used to add to iterator
  */
-
-/**
- * @name channel
- * @deprecated [deprecated in favor of AsyncArray API]
- * @description creates a pair of asynchronous functions used to transfer objects between programs
- * @returns {AsyncPair} array of paired functions
- * @example
- * import {channel} from "async-endpoint";
- * const [request, respond] = channel();
- * const main = async()=>{
- *      setTimeout(()=>{
- *          respond("hello");
- *      })
- *      console.log(await request());n a
- * }
- * main();
- * //logs "hello"
- */
-export { default as channel } from "./channel.mjs";
 
 /**
  * @class AsyncArray
@@ -106,13 +77,15 @@ export { default as AsyncArray } from "./async-array.mjs";
 /**
  * @function composePrograms
  * @description composes programs sequentially with a single input
- * @param {PairedRequest} request - request function for input
+ * @param {Function} request - request function for input
  * @param {...Program} programs - programs to be composed sequentially
  * @returns {AsynchornousIterator} resulting iterator
  * @example
- * import {composePrograms} from "async-endpoint";
+ * import {composePrograms, AsyncArray} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
- * const [request, respond] = channel();
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * const program = composePrograms(request, program1, program2, program3);
  * window.respond = respond;
  */
@@ -276,9 +249,9 @@ export {
  * @param {...*} initial - initial items in queue
  * @returns {PushPair} queue and push function
  * @example
- * import {createQueue, channel, renderer, renderer as createPassThrough} from "async-endpoint";
+ * import {createQueue, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
- * const [queue, push] createQueue();
+ * const [queue, push] = createQueue();
  * const passthrough = createPassThrough(push);
  * passthrough(porgram1(), program2(), program3());
  * const render = renderer();
@@ -292,9 +265,9 @@ export { default as createQueue } from "./queue/create-queue.mjs";
  * @param {...*} initial - initial items on stack
  * @returns {PushPair} stack and push function
  * @example
- * import {createStack, channel, renderer, renderer as createPassThrough} from "async-endpoint";
+ * import {createStack, renderer, renderer as createPassThrough} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
- * const [stack, push] createStack();
+ * const [stack, push] = createStack();
  * const passthrough = createPassThrough(push);
  * passthrough(porgram1(), program2(), program3());
  * const render = renderer();
@@ -308,7 +281,7 @@ export { default as createStack } from "./queue/create-stack.mjs";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramQueue, channel, renderer} from "async-endpoint";
+ * import {createProgramQueue, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [queue, push] = createProgramQueue();
  * push(porgram1(), program2(), program3());
@@ -323,7 +296,7 @@ export { default as programQueue } from "./queue/create-program-queue.mjs";
  * Like "queue", but accepts program as input
  * @returns {PushPair} iterator and push function
  * @example
- * import {createProgramStack, channel, renderer} from "async-endpoint";
+ * import {createProgramStack, renderer} from "async-endpoint";
  * import porgram1, program1, program3 from "....mjs";
  * const [stack, push] = createProgramStack();
  * push(porgram1(), program2(), program3());
@@ -372,8 +345,10 @@ export { default as takeWhile } from "./take/while.mjs";
  * @param {PairedRequest} request - request function for input
  * @returns {AsynchronousIterator} resulting iterator
  * @example
- * import {identity, renderer channel} from "async-endpoint";
- * const [request, respond] = channel();
+ * import {identity, renderer, AsyncArray} from "async-endpoint";
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * identity(undefined, request);
  * window.respond = respond
  */
@@ -437,10 +412,11 @@ export { default as tee } from "./renderer/tee.mjs";
  * @description send input typed into console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {identity, channel, renderer} from "async-endpoint";
+ * import {identity, AsyncArray, renderer} from "async-endpoint";
  * import inputConsole from "async-endpoint/input/console";
-
- * const [request, respond] = channel();
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * const render = renderer();
  * render(identity(undefined, request))
  * inputConsole(respond);
@@ -452,9 +428,11 @@ export { default as tee } from "./renderer/tee.mjs";
  * @description send input piped to console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {identity, channel, renderer} from "async-endpoint";
+ * import {identity, renderer, AsyncArray} from "async-endpoint";
  * import inputPipe from "async-endpoint/input/pipe";
- * const [request, respond] = channel();
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * const render = renderer();
  * render(identity(undefined, request))
  * inputPipe(respond);

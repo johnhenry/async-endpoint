@@ -2,47 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-//     
-var channel = (function () {
-  var limit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Infinity;
-
-  console.warn("Deprecaration warning: \"channel\" to be replaced with \"async-array\"");
-  var releaseRequest = function releaseRequest() {};
-  var releaseResponse = function releaseResponse() {};
-  //Calling request will return a new promise that's primed to resolve with the arguments of respond when next called
-  var request = function request() {
-    var debug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-
-    var lastAnswer = void 0;
-    if (limit < 1) {
-      return Promise.resolve(lastAnswer);
-    }
-    limit--;
-    setTimeout(releaseResponse);
-    var returnPromise = new Promise(function (outerResolve) {
-      releaseRequest = function releaseRequest(answer) {
-        var returnPromiseB = new Promise(function (innerResolve) {
-          lastAnswer = answer;
-          outerResolve(answer);
-          releaseResponse = function releaseResponse() {
-            return innerResolve(debug);
-          };
-          return releaseResponse;
-        });
-        return returnPromiseB;
-      };
-      return releaseRequest;
-    });
-    return returnPromise;
-  };
-  //Calling respond will resolve the promise most recently created by calling request.
-  //It returns a promise that will be resolved after the next call to request creates a new promise.
-  var respond = function respond(answer) {
-    return releaseRequest(answer);
-  };
-  return [request, respond];
-});
-
 var asyncIterator = function (iterable) {
   if (typeof Symbol === "function") {
     if (Symbol.asyncIterator) {
@@ -1940,24 +1899,14 @@ var tee = (function () {
 /* eslint-disable */
 /**
  * @typedef {Function} PairedRequest
- * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that receives it's response from a paired PairedRespond function
  * @return {Promise<*>} response from respond reunction
  */
 
 /**
  * @typedef {Function} PairedRespond
- * @deprecated [deprecated in favor of AsyncArray API]
  * @description a function that sends it's input to a paired PairedRequest function
  * @param {*} response - response for request function
- */
-
-/**
- * @typedef {Array} AsyncPair
- * @deprecated [deprecated in favor of AsyncArray API]
- * @description a pair of paired PairedRequest and PairedRespond functions
- * @property {PairedRequest} 0 - request function
- * @property {PairedRespond} 1 - respond function
  */
 
 /**
@@ -1990,21 +1939,36 @@ var tee = (function () {
  */
 
 /**
- * @name channel
- * @deprecated [deprecated in favor of AsyncArray API]
- * @description creates a pair of asynchronous functions used to transfer objects between programs
- * @returns {AsyncPair} array of paired functions
+ * @class AsyncArray
+ * @description An Asynchronous Array
+ * @extends Array
  * @example
- * import {channel} from "async-endpoint";
- * const [request, respond] = channel();
+ * import {AsyncArray} from "async-endpoint";
+ * const input = new AsyncArray();
  * const main = async()=>{
  *      setTimeout(()=>{
- *          respond("hello");
+ *          input.push("hello world");
  *      })
- *      console.log(await request());n a
+ *      const {value} = await input.next();
+ *      console.log(value);
+ * }
+ * main();
+ * //logs "hello world"
+ * @example
+ * import {AsyncArray} from "async-endpoint";
+ * const input = new AsyncArray();
+ * const main = async()=>{
+ *      setTimeout(()=>{
+ *          input.push("hello");
+ *          input.push("world");
+ *      })
+ *      for await(const value of input){
+ *        console.log(vaue);
+ *      }
  * }
  * main();
  * //logs "hello"
+ * //logs "world"
  */
 
 
@@ -2014,10 +1978,11 @@ var tee = (function () {
  * @description send input typed into console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {identity, channel, renderer} from "async-endpoint";
+ * import {identity, AsyncArray, renderer} from "async-endpoint";
  * import inputConsole from "async-endpoint/input/console";
-
- * const [request, respond] = channel();
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * const render = renderer();
  * render(identity(undefined, request))
  * inputConsole(respond);
@@ -2029,16 +1994,17 @@ var tee = (function () {
  * @description send input piped to console to a PairedRespond function
  * @param {PairedRespond} respond - request function for input
  * @example
- * import {identity, channel, renderer} from "async-endpoint";
+ * import {identity, renderer, AsyncArray} from "async-endpoint";
  * import inputPipe from "async-endpoint/input/pipe";
- * const [request, respond] = channel();
+ * const channel = new AsyncArray();
+ * const respond = channel.push.bind(channel),
+ * request = async () => (await channel.next()).value;
  * const render = renderer();
  * render(identity(undefined, request))
  * inputPipe(respond);
  */
 // export { default as inputPipe } from "./input/pipe.js";
 
-exports.channel = channel;
 exports.AsyncArray = _class;
 exports.composeProgram = composePrograms;
 exports.map = map;
